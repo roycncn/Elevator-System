@@ -3,6 +3,7 @@ import java.util.ArrayList;
 /**
  * Created by test on 2016/11/16.
  */
+
 public class AccessConfiguration extends Configuration {
     private ArrayList<String> accessRules;
 
@@ -15,7 +16,7 @@ public class AccessConfiguration extends Configuration {
     }
 
     public boolean addAccessRules(AdminPanel adminPanel, String rule) {
-        if ( adminPanel.panelName == "Admin") {
+        if ( adminPanel != null ) {
             this.accessRules.add(rule);
             return true;
         }
@@ -23,11 +24,10 @@ public class AccessConfiguration extends Configuration {
     }
 
     public boolean removeAccessRules(AdminPanel adminPanel, int ruleIndex) {
-        if ( adminPanel.panelName == "Admin") {
+        if ( adminPanel != null ) {
             this.accessRules.remove(ruleIndex);
             return true;
         }
         return false;
     }
-
 }

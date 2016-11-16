@@ -4,6 +4,11 @@ import java.util.ArrayList;
  * Created by test on 2016/11/16.
  */
 public class Person {
+
+    public static enum Role {
+        ADMIN,USER
+    }
+
     public int personID;
     public ArrayList<Floor> accessableFloors;
 
