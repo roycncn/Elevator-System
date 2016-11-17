@@ -43,15 +43,7 @@ public class ElevatorController {
         }
 
         try {
-<<<<<<< HEAD
-            elevatorMsgQueue.put("What");
-            elevatorMsgQueue.put("The");
-            elevatorMsgQueue.put("Fuck");
-            elevatorMsgQueue.put("Is");
-            elevatorMsgQueue.put("That");
-            Thread.sleep(1000);
-            elevatorMsgQueue.put("我睡醒了！！！！！！！！！！！！");
-=======
+
             Thread.sleep(10);
             this.messageBox.send(new Message("Ele 2", "Queue : 1"));
             this.messageBox.send(new Message("Ele 1", "Queue : 2"));
@@ -59,7 +51,7 @@ public class ElevatorController {
             this.messageBox.send(new Message("Ele 2", "Queue : 4"));
             this.messageBox.send(new Message("Ele 3", "Queue : 5"));
             this.messageBox.send(new Message("Ele 0", "Queue : 6"));
->>>>>>> dbaebb4b8079363d47f07cac9e37f59e7cf4863b
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
