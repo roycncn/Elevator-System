@@ -44,6 +44,8 @@ public class ElevatorController {
             elevatorMsgQueue.put("Fuck");
             elevatorMsgQueue.put("Is");
             elevatorMsgQueue.put("That");
+            Thread.sleep(1000);
+            elevatorMsgQueue.put("我睡醒了！！！！！！！！！！！！");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
