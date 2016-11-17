@@ -13,6 +13,9 @@ public class Building {
         this.floors = floors;
         this.inhousePerson = inhousePerson;
         this.elevatorController = elevatorController;
+        System.out.println("Log:Building Constructed...");
+
+
     }
 
     public boolean stopAll() {

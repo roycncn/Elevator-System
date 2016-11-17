@@ -6,6 +6,10 @@ import jdk.nashorn.internal.runtime.regexp.joni.Config;
 public class Configuration {
     public String configType;
 
+    public Configuration () {
+
+    }
+
     public Configuration (String path, String configType) {
         this.configType = configType;
     }
