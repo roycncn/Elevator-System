@@ -50,14 +50,11 @@ public class Elevator implements Runnable {
 
             try {
 
-                if (this.ec.elevatorMsgQueue.peek() != null) {
-                    String msg = this.ec.elevatorMsgQueue.poll();
+                    System.out.println(this.getId() + " waiting signal ");
+                    String msg = this.ec.elevatorMsgQueue.take();
                     System.out.println(this.getId() + " rev " + msg);
                     Thread.sleep(500);
-                } else {
-                    System.out.println(this.getId()+" is wait Fetching signal from elevator");
-                    Thread.sleep(1000);
-                }
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
 

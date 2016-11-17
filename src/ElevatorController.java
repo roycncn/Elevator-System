@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -8,12 +10,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ElevatorController {
     public ArrayList<Kiosk> kiosks;
     public ArrayList<Elevator> elevators;
-    public ConcurrentLinkedQueue<String> elevatorMsgQueue; //Msg send to elevators
-    public ConcurrentLinkedQueue<String> controllerMsgQueue; // Msg rev from elevators/kiosk
+    public BlockingQueue<String> elevatorMsgQueue; //Msg send to elevators
+    public BlockingQueue<String> controllerMsgQueue; // Msg rev from elevators/kiosk
 
     public ElevatorController () {
-        this.elevatorMsgQueue = new ConcurrentLinkedQueue<String>();
-        this.controllerMsgQueue = new ConcurrentLinkedQueue<String>();
+        this.elevatorMsgQueue = new LinkedBlockingQueue<String>();
+        this.controllerMsgQueue = new LinkedBlockingQueue<String>();
         System.out.println("Log:ElevatorController Constructed...");
     }
 
@@ -36,11 +38,16 @@ public class ElevatorController {
             t.start();
         }
 
-        elevatorMsgQueue.add("What");
-        elevatorMsgQueue.add("The");
-        elevatorMsgQueue.add("Fuck");
-        elevatorMsgQueue.add("Is");
-        elevatorMsgQueue.add("That");
+        try {
+            elevatorMsgQueue.put("What");
+            elevatorMsgQueue.put("The");
+            elevatorMsgQueue.put("Fuck");
+            elevatorMsgQueue.put("Is");
+            elevatorMsgQueue.put("That");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
 
 
