@@ -7,20 +7,19 @@ import java.util.ArrayList;
 public class Simulator {
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ElevatorController elevatorController = new ElevatorController();
 
         ArrayList<Elevator> elevators = new ArrayList<Elevator>();
-        elevators.add(new Elevator(0,new Configuration(),elevatorController));
-        elevators.add(new Elevator(1,new Configuration(),elevatorController));
-        elevators.add(new Elevator(2,new Configuration(),elevatorController));
-        elevators.add(new Elevator(3,new Configuration(),elevatorController));
-        elevators.add(new Elevator(4,new Configuration(),elevatorController));
+        elevators.add(new Elevator("Ele 0", new Configuration(), elevatorController));
+        elevators.add(new Elevator("Ele 1", new Configuration(), elevatorController));
+        elevators.add(new Elevator("Ele 2", new Configuration(), elevatorController));
+        elevators.add(new Elevator("Ele 3", new Configuration(), elevatorController));
+        elevators.add(new Elevator("Ele 4", new Configuration(), elevatorController));
 
         elevatorController.regElevators(elevators);
 
         elevatorController.startSystem();
-
 
 
     }
