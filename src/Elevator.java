@@ -51,18 +51,10 @@ public class Elevator extends AppThread {
         while (true) {
             try {
                 Thread.sleep(100);
-                String msg = this.messageBox.receive(this.elevatorID);
-                if ( msg != null ) {
-                    System.out.println(this.getId() + " received " + msg);
-                } else {
-//                    System.out.println(this.getId() + " No message");
-                }
+                String msg = this.messageBox.receive();
+                System.out.println(this.getId() + " received " + msg);
 
-////                    System.out.println(this.getId() + " waiting signal ");
-////                    String msg1 = this.ec.elevatorMsgQueue.take();
-////                    System.out.println(this.getId() + " rev " + msg1);
-////                    Thread.sleep(5);
-//
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

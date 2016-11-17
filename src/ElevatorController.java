@@ -11,17 +11,13 @@ import java.util.Hashtable;
 public class ElevatorController {
     public ArrayList<Kiosk> kiosks;
     public ArrayList<Elevator> elevators;
-    public BlockingQueue<String> elevatorMsgQueue; //Msg send to elevators
-    public BlockingQueue<String> controllerMsgQueue; // Msg rev from elevators/kiosk
     private Hashtable<String, AppThread> appThreads = null;
-    private MessageBox messageBox;
+    private Hashtable<String, MessageBox> messageBoxes = null;
 
     public ElevatorController() {
-        this.elevatorMsgQueue = new LinkedBlockingQueue<String>();
-        this.controllerMsgQueue = new LinkedBlockingQueue<String>();
         this.appThreads = new Hashtable<String, AppThread>();
-        this.messageBox = new MessageBox("ElevatorController MessageBox");
-        System.out.println("Log:ElevatorController Constructed...");
+        this.messageBoxes = new Hashtable<String, MessageBox>();
+        System.out.println("Log: ElevatorController Constructed...");
     }
 
     public Elevator findElevator(Floor fromFloor, Floor toFloor) {
@@ -43,14 +39,14 @@ public class ElevatorController {
         }
 
         try {
-
-            Thread.sleep(10);
-            this.messageBox.send(new Message("Ele 2", "Queue : 1"));
-            this.messageBox.send(new Message("Ele 1", "Queue : 2"));
-            this.messageBox.send(new Message("Ele 1", "Queue : 3"));
-            this.messageBox.send(new Message("Ele 2", "Queue : 4"));
-            this.messageBox.send(new Message("Ele 3", "Queue : 5"));
-            this.messageBox.send(new Message("Ele 0", "Queue : 6"));
+            Thread.sleep(100);
+            this.messageBoxes.get("1").send(new Message("1..1"));
+            this.messageBoxes.get("2").send(new Message("2..1"));
+            this.messageBoxes.get("3").send(new Message("3..1"));
+            this.messageBoxes.get("4").send(new Message("4..1"));
+            this.messageBoxes.get("1").send(new Message("1..2"));
+            this.messageBoxes.get("4").send(new Message("4..2"));
+            this.messageBoxes.get("4").send(new Message("4..3"));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -69,14 +65,15 @@ public class ElevatorController {
 
     public void regThread(AppThread appThread) {
         this.appThreads.put(appThread.getThreadID(), appThread);
+        this.messageBoxes.put(appThread.getThreadID(), new MessageBox(appThread.getThreadID()));
     }
 
     public AppThread getThread(String id) {
         return this.appThreads.get(id);
     }
 
-    public MessageBox getMessageBox() {
-        return this.messageBox;
+    public MessageBox getMessageBox(String id) {
+        return this.messageBoxes.get(id);
     }
 
 }
