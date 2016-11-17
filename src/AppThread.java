@@ -3,14 +3,11 @@
  */
 public abstract class AppThread implements Runnable {
     protected String id;
-    protected ElevatorController elevatorController;
     protected MessageBox messageBox = null;
 
-    public AppThread(String id, ElevatorController ec) {
+    public AppThread(String id) {
         this.id = id;
-        this.elevatorController = ec;
-        ec.regThread(this);
-        this.messageBox = ec.getMessageBox(this.id);
+
     }
 
     public MessageBox getMessageBox () {

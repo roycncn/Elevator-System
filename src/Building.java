@@ -21,4 +21,10 @@ public class Building {
     public boolean stopAll() {
         return true;
     }
+
+    public Floor getFloor(String level){
+        return floors.get(Integer.parseInt(level));
+    }
 }
+
+

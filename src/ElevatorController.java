@@ -13,15 +13,12 @@ public class ElevatorController {
     public ArrayList<Elevator> elevators;
     private Hashtable<String, AppThread> appThreads = null;
     private Hashtable<String, MessageBox> messageBoxes = null;
+    private AppThread ticker;
 
     public ElevatorController() {
         this.appThreads = new Hashtable<String, AppThread>();
         this.messageBoxes = new Hashtable<String, MessageBox>();
         System.out.println("Log: ElevatorController Constructed...");
-    }
-
-    public Elevator findElevator(Floor fromFloor, Floor toFloor) {
-        return this.elevators.get(0);
     }
 
     public void regElevators(ArrayList<Elevator> elevators) {
@@ -33,24 +30,22 @@ public class ElevatorController {
     }
 
     public void startSystem() {
-
+        this.ticker = new Ticker("Ticker",1000,5);
+        new Thread(ticker).start();
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
-        try {
-            Thread.sleep(100);
-            this.messageBoxes.get("1").send(new Message("1..1"));
-            this.messageBoxes.get("2").send(new Message("2..1"));
-            this.messageBoxes.get("3").send(new Message("3..1"));
-            this.messageBoxes.get("4").send(new Message("4..1"));
-            this.messageBoxes.get("1").send(new Message("1..2"));
-            this.messageBoxes.get("4").send(new Message("4..2"));
-            this.messageBoxes.get("4").send(new Message("4..3"));
+            sendMessage("Elevator_0",new Message("0..1"));
+            sendMessage("Elevator_1",new Message("1..1"));
+            sendMessage("Elevator_2",new Message("2..1"));
+            sendMessage("Elevator_3",new Message("3..1"));
+            sendMessage("Elevator_4",new Message("4..1"));
+            sendMessage("Elevator_4",new Message("4..2"));
+            sendMessage("Elevator_4",new Message("4..2"));
+            sendMessage("Elevator_4",new Message("4..3"));
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
@@ -63,6 +58,10 @@ public class ElevatorController {
 
     }
 
+    public Elevator findElevator(Floor fromFloor, Floor toFloor) {
+        return this.elevators.get(0);
+    }
+
     public void regThread(AppThread appThread) {
         this.appThreads.put(appThread.getThreadID(), appThread);
         this.messageBoxes.put(appThread.getThreadID(), new MessageBox(appThread.getThreadID()));
@@ -72,8 +71,15 @@ public class ElevatorController {
         return this.appThreads.get(id);
     }
 
+    public AppThread getTicker() {
+        return this.ticker;
+    }
+
+
     public MessageBox getMessageBox(String id) {
         return this.messageBoxes.get(id);
     }
+
+    public void sendMessage(String id,Message msg) { this.messageBoxes.get(id).send(msg); }
 
 }

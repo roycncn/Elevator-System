@@ -6,18 +6,21 @@ import java.util.ArrayList;
 public class Elevator extends AppThread {
     private String elevatorID;
     private Configuration config;
-    private ElevatorController ec;
+    protected ElevatorController elevatorController;
     public ArrayList<Floor> floorQueue;
+    public ArrayList<String> floorQueue_dev;
     public Floor currentFloor;
-
+    public int currentSlot;
     public int status;
 
     public Elevator(String elevatorID, Configuration config, ElevatorController ec) {
-        super(elevatorID, ec);
+        super(elevatorID);
+        this.elevatorController = ec;
         this.elevatorID = elevatorID;
+        ec.regThread(this);
+        this.messageBox = ec.getMessageBox(elevatorID);
         this.config = config;
         this.floorQueue = new ArrayList<Floor>();
-        this.ec = ec;
         System.out.printf("Elevator %s is created!\n", this.elevatorID);
     }
 
@@ -50,11 +53,25 @@ public class Elevator extends AppThread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(100);
-                String msg = this.messageBox.receive();
-                System.out.println(this.getId() + " received " + msg);
 
 
+            String msg = this.messageBox.receive();
+
+                switch (msg){
+                    //      [COL_COUNT(this case 3)]<INT>|GOTO<STRING>|[FloorNumber]<INT>
+                    case "GOTO":
+                        String m[] = msg.split("|");
+                        floorQueue_dev.add(m[2]);
+                        break;
+                    default:
+                        break;
+                //Finished fetch and deal with msg from queue
+
+                //Start to Work
+
+                }
+                Thread.sleep(1000);
+                System.out.println(getId()+"-"+"Tick");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
