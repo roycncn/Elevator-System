@@ -18,6 +18,7 @@ public class Elevator extends AppThread {
         this.config = config;
         this.floorQueue = new ArrayList<Floor>();
         this.ec = ec;
+        System.out.printf("Elevator %s is created!\n", this.elevatorID);
     }
 
     public boolean addFloorToQueue(Floor toFloor) {
@@ -53,7 +54,8 @@ public class Elevator extends AppThread {
                 String msg = this.messageBox.receive(this.elevatorID);
                 if ( msg != null ) {
                     System.out.println(this.getId() + " received " + msg);
-//                    this.messageBox.send(new Message(this.id, this.id + "Reveiced message"));
+                } else {
+//                    System.out.println(this.getId() + " No message");
                 }
 
 ////                    System.out.println(this.getId() + " waiting signal ");

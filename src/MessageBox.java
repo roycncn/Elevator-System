@@ -16,34 +16,37 @@ public class MessageBox {
     public final synchronized void send(Message msg) {
         msgCnt++;
         messageQueue.add(msg);
-        notifyAll();
+//        notifyAll();
     }
 
 
     @Nullable
-    public final synchronized String receive(String id) {
+    public final synchronized String receive(String receiver) {
         // wait if message queue is empty
-        if ( msgCnt <= 0) {
-            while (true) {
-                try {
-                    wait();
-                    break;
-                } catch (InterruptedException e) {
-                    if (msgCnt > 0)
-                        break; // msg arrived already
-                    else
-                        continue; // no msg yet, continue waiting
-                }
+//        if ( msgCnt <= 0) {
+//            while (true) {
+//                try {
+//                    wait();
+//                    break;
+//                } catch (InterruptedException e) {
+//                    if (msgCnt > 0) {
+//                        break; // msg arrived already
+//                    } else {
+//                        continue; // no msg yet, continue waiting
+//                    }
+//                }
+//            }
+//        }
+
+        if ( messageQueue.size() > 0 ) {
+            Message msg = messageQueue.get(0);
+            if ( msg.getReceiver().equals(receiver) ) {
+                messageQueue.remove(0);
+                msgCnt--;
+                return msg.getDetail();
             }
         }
 
-        Message msg = messageQueue.get(0);
-
-        if ( msg.getReceiver().equals(id) ) {
-            msgCnt--;
-            messageQueue.remove(0);
-            return msg.getDetail();
-        }
 
         return null;
     }

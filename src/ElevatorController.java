@@ -44,12 +44,12 @@ public class ElevatorController {
 
         try {
             Thread.sleep(10);
-            this.messageBox.send(new Message("Ele 2", "Hello 2"));
-            this.messageBox.send(new Message("Ele 1", "Hello 1"));
-            this.messageBox.send(new Message("Ele 1", "Hello 1 again"));
-            this.messageBox.send(new Message("Ele 2", "Hello 2 again"));
-            this.messageBox.send(new Message("Ele 3", "Hello 3"));
-            this.messageBox.send(new Message("Ele 0", "Hello 0"));
+            this.messageBox.send(new Message("Ele 2", "Queue : 1"));
+            this.messageBox.send(new Message("Ele 1", "Queue : 2"));
+            this.messageBox.send(new Message("Ele 1", "Queue : 3"));
+            this.messageBox.send(new Message("Ele 2", "Queue : 4"));
+            this.messageBox.send(new Message("Ele 3", "Queue : 5"));
+            this.messageBox.send(new Message("Ele 0", "Queue : 6"));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
