@@ -22,7 +22,7 @@ public class Ticker extends AppThread {
 
             }
             if (--this.numOfConsumer > 0) {
-                System.out.println("----- Ticker -----");
+                System.out.printf("----- Ticker %s-----\n", this.numOfConsumer);
                 this.elevatorController.sendMessageToAllElevators(new Message("TIC", "Message from ticker"));
             }
         }

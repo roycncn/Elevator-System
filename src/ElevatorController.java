@@ -26,7 +26,7 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 500, 100);
+        this.ticker = new Ticker("Ticker", this, 500, 2);
         new Thread(this.ticker).start();
 
         for (Elevator elevator : elevators) {
