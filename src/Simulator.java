@@ -6,7 +6,6 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
-
     public static void main(String[] args) {
         ElevatorController elevatorController = new ElevatorController();
 
@@ -19,7 +18,12 @@ public class Simulator {
 
         elevatorController.regElevators(elevators);
 
-        elevatorController.startSystem();
+        try {
+            elevatorController.startSystem();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
 
     }

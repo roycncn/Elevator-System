@@ -1,8 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.Hashtable;
 
 /**
@@ -29,24 +25,32 @@ public class ElevatorController {
         this.kiosks = kiosks;
     }
 
-    public void startSystem() {
-        this.ticker = new Ticker("Ticker",1000,5);
-        new Thread(ticker).start();
+    public void startSystem() throws InterruptedException {
+        this.ticker = new Ticker("Ticker", this, 500, 100);
+        new Thread(this.ticker).start();
+
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
-            sendMessage("Elevator_0",new Message("0..1"));
-            sendMessage("Elevator_1",new Message("1..1"));
-            sendMessage("Elevator_2",new Message("2..1"));
-            sendMessage("Elevator_3",new Message("3..1"));
-            sendMessage("Elevator_4",new Message("4..1"));
-            sendMessage("Elevator_4",new Message("4..2"));
-            sendMessage("Elevator_4",new Message("4..2"));
-            sendMessage("Elevator_4",new Message("4..3"));
-
-
-
+        sendMessage("Elevator_0", new Message("GOTO", "1"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_1", new Message("GOTO", "13"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_2", new Message("GOTO", "12"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_3", new Message("GOTO", "5"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_4", new Message("GOTO", "6"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_4", new Message("GOTO", "1"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_4", new Message("GOTO", "3"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_4", new Message("GOTO", "2"));
+        Thread.sleep(1000);
+        sendMessage("Elevator_4", new Message("GOTO", "20"));
+        Thread.sleep(1000);
 
     }
 
@@ -63,8 +67,8 @@ public class ElevatorController {
     }
 
     public void regThread(AppThread appThread) {
-        this.appThreads.put(appThread.getThreadID(), appThread);
-        this.messageBoxes.put(appThread.getThreadID(), new MessageBox(appThread.getThreadID()));
+        this.appThreads.put(appThread.getID(), appThread);
+        this.messageBoxes.put(appThread.getID(), new MessageBox(appThread.getID()));
     }
 
     public AppThread getThread(String id) {
@@ -80,6 +84,14 @@ public class ElevatorController {
         return this.messageBoxes.get(id);
     }
 
-    public void sendMessage(String id,Message msg) { this.messageBoxes.get(id).send(msg); }
+    public void sendMessageToAllElevators(Message msg) {
+        for (String key : this.messageBoxes.keySet()) {
+            this.sendMessage(this.getMessageBox(key).getID(), msg);
+        }
+    }
+
+    public void sendMessage(String id, Message msg) {
+        this.messageBoxes.get(id).send(msg);
+    }
 
 }

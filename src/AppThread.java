@@ -2,19 +2,20 @@
  * Created by Fai on 17/11/2016.
  */
 public abstract class AppThread implements Runnable {
-    protected String id;
-    protected MessageBox messageBox = null;
+    private String id;
+    private MessageBox messageBox = null;
 
-    public AppThread(String id) {
+    public AppThread(String id, ElevatorController ec) {
         this.id = id;
-
+        ec.regThread(this);
+        this.messageBox = ec.getMessageBox(this.id);
     }
 
     public MessageBox getMessageBox () {
         return this.messageBox;
     }
 
-    public String getThreadID () {
+    public String getID () {
         return this.id;
     }
 

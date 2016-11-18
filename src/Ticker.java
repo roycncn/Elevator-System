@@ -3,21 +3,28 @@
  */
 public class Ticker extends AppThread {
     protected int tick;
-    protected  int numOfConsumer;
-    public Ticker(String id,int tick,int numOfConsumer){
-        super(id);
-        this.messageBox = new MessageBox(id);
+    protected int numOfConsumer;
+    private ElevatorController elevatorController;
+
+    public Ticker(String id, ElevatorController ec, int tick, int numOfConsumer) {
+        super(id, ec);
         this.tick = tick;
         this.numOfConsumer = numOfConsumer;
+        this.elevatorController = ec;
     }
+
     @Override
     public void run() {
         while (true) {
             try {
                 Thread.sleep(tick);
-            } catch (Exception e) {};
-            for (int i=0;i<numOfConsumer;i++)
-                messageBox.send(new Message("Ticker"));
+            } catch (Exception e) {
+
+            }
+            if (--this.numOfConsumer > 0) {
+                System.out.println("----- Ticker -----");
+                this.elevatorController.sendMessageToAllElevators(new Message("TIC", "Message from ticker"));
+            }
         }
     }
 }

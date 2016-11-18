@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 /**
  * Created by Fai on 17/11/2016.
@@ -19,9 +17,11 @@ public class MessageBox {
         notify();
     }
 
+    public String getID () {
+        return this.id;
+    }
 
-    @Nullable
-    public final synchronized String receive() {
+    public final synchronized Message receive() {
         // wait if message queue is empty
         if ( msgCnt <= 0) {
             while (true) {
@@ -41,6 +41,6 @@ public class MessageBox {
         Message msg = messageQueue.remove(0);
         msgCnt--;
 
-        return msg.getDetail();
+        return msg;
     }
 }
