@@ -19,7 +19,7 @@ public class Person {
 
     public boolean addAccessFloor(Floor floor) {
         for (Floor f : this.accessableFloors) {
-            if ( f.floorLevel == floor.floorLevel ) {
+            if ( f.getFloorLevel() == floor.getFloorLevel() ) {
                 return false;
             }
         }

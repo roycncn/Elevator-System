@@ -26,31 +26,32 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 500, 2);
+        this.ticker = new Ticker("Ticker", this, 500, 100);
         new Thread(this.ticker).start();
 
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
+        Thread.sleep(1000);
         sendMessage("Elevator_0", new Message("GOTO", "1"));
         Thread.sleep(1000);
-        sendMessage("Elevator_1", new Message("GOTO", "13"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_2", new Message("GOTO", "12"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_3", new Message("GOTO", "5"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_4", new Message("GOTO", "6"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_4", new Message("GOTO", "1"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_4", new Message("GOTO", "3"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_4", new Message("GOTO", "2"));
-        Thread.sleep(1000);
-        sendMessage("Elevator_4", new Message("GOTO", "20"));
-        Thread.sleep(1000);
+        sendMessage("Elevator_1", new Message("GOTO", "20"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_2", new Message("GOTO", "12"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_3", new Message("GOTO", "5"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_4", new Message("GOTO", "6"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_4", new Message("GOTO", "1"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_4", new Message("GOTO", "3"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_4", new Message("GOTO", "2"));
+//        Thread.sleep(1000);
+//        sendMessage("Elevator_4", new Message("GOTO", "20"));
+//        Thread.sleep(1000);
 
     }
 

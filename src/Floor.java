@@ -4,9 +4,13 @@
 import java.util.ArrayList;
 
 public class Floor {
-    public int floorLevel;
-    public int height;
-    public ArrayList<Kiosk> kiosks;
+    private int floorLevel;
+    private int height;
+    private ArrayList<Kiosk> kiosks;
+
+    public Floor(int floorLevel) {
+        this.floorLevel = floorLevel;
+    }
 
     public Floor(int floorLevel, int height, ArrayList<Kiosk> kiosks) {
         this.floorLevel = floorLevel;
@@ -14,4 +18,7 @@ public class Floor {
         this.kiosks = kiosks;
     }
 
+    public int getFloorLevel() {
+        return floorLevel;
+    }
 }

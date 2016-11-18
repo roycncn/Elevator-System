@@ -10,35 +10,26 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
-    class ElevatorJson {
-            String id;
-        public String toString() {
-            return "id: " + id;
-        }
+    class ElevatorModel {
+        String id;
+        String floorLevel;
     }
 
     public static void main(String[] args) {
 
         ElevatorController elevatorController = new ElevatorController();
+        ArrayList<Elevator> elevators = new ArrayList<Elevator>();
 
         try {
             Gson gson = new Gson();
             JsonReader jsonReader = new JsonReader(new FileReader("./JSON/Elevators.json"));
-            ElevatorJson[] Eles = gson.fromJson(jsonReader, ElevatorJson[].class);
-            for (ElevatorJson e : Eles) {
-                System.out.println(e.toString());
+            ElevatorModel[] elevatorModels = gson.fromJson(jsonReader, ElevatorModel[].class);
+            for (ElevatorModel model : elevatorModels) {
+                elevators.add(new Elevator(model.id, Integer.parseInt(model.floorLevel), new Configuration(), elevatorController));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        ArrayList<Elevator> elevators = new ArrayList<Elevator>();
-        elevators.add(new Elevator("Elevator_0", new Configuration(), elevatorController));
-        elevators.add(new Elevator("Elevator_1", new Configuration(), elevatorController));
-        elevators.add(new Elevator("Elevator_2", new Configuration(), elevatorController));
-        elevators.add(new Elevator("Elevator_3", new Configuration(), elevatorController));
-        elevators.add(new Elevator("Elevator_4", new Configuration(), elevatorController));
 
         elevatorController.regElevators(elevators);
 
