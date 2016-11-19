@@ -145,6 +145,13 @@ public class Elevator extends AppThread {
                                         this.currentFloor = this.floorQueue.remove(0);
                                         this.currentHeight = this.currentFloor.getHeight();
                                         System.out.printf("** %s reached level %d.\n", this.getID(), this.currentFloor.getFloorLevel());
+
+                                        if (this.floorQueue.size() == 0 && this.floorQueueSpare.size() > 0) {
+                                            while (this.floorQueueSpare.size() > 0) {
+                                                this.floorQueue.add(this.floorQueueSpare.remove(0));
+                                            }
+                                        }
+
                                         break;
                                     }
                                     System.out.printf("%s reached level %d.\n", this.getID(), this.currentFloor.getFloorLevel());
