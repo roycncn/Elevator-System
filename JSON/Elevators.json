@@ -1,10 +1,18 @@
 [
 	{
 		"id" : "Elevator_0",
-		"floorLevel" : "3"
+		"floorLevel" : 0,
+		"accelerationSpeed" : 1.0,
+		"maximumSpeed" : 2.0,
+		"runMode" : "NORMAL"
+		"floorLevel" : "0"
 	},
 	{
 		"id" : "Elevator_1",
-		"floorLevel" : "7"
+		"floorLevel" : 25,
+		"accelerationSpeed" : 1.0,
+		"maximumSpeed" : 2.0,
+		"runMode" : "NORMAL"
+		"floorLevel" : "25"
 	}
 ]

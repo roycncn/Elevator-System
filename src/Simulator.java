@@ -13,10 +13,7 @@ public class Simulator {
 
     protected  ElevatorController elevatorController;
     protected  ArrayList<Elevator> elevators;
-    class ElevatorModel {
-        String id;
-        String floorLevel;
-    }
+
 
     public Simulator(){
 
@@ -24,11 +21,10 @@ public class Simulator {
          this.elevators= new ArrayList<Elevator>();
 
         try {
-            Gson gson = new Gson();
-            JsonReader jsonReader = new JsonReader(new FileReader("./JSON/Elevators.json"));
-            ElevatorModel[] elevatorModels = gson.fromJson(jsonReader, ElevatorModel[].class);
-            for (ElevatorModel model : elevatorModels) {
-                elevators.add(new Elevator(model.id, Integer.parseInt(model.floorLevel), new Configuration(), elevatorController));
+            ElevatorConfiguration elevatorConfiguration = ElevatorConfiguration.getInstance();
+
+            for (ElevatorFactorySetting model : elevatorConfiguration.getAllSettings()) {
+                elevators.add(new Elevator(model.id, Integer.parseInt(model.floorLevel), elevatorConfiguration, elevatorController));
             }
         } catch (IOException e) {
             e.printStackTrace();
