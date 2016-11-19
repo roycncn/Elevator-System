@@ -1,10 +1,10 @@
 [
 	{
 		"id" : "Elevator_0",
-		"floorLevel" : "0"
+		"floorLevel" : "3"
 	},
 	{
 		"id" : "Elevator_1",
-		"floorLevel" : "10"
+		"floorLevel" : "7"
 	}
 ]

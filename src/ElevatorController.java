@@ -27,23 +27,26 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 100, 500);
+        this.ticker = new Ticker("Ticker", this, 1, 5000);
         new Thread(this.ticker).start();
 
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
-        Thread.sleep(10);
-        this.findElevator(new Floor(2), new Floor(5));
-        Thread.sleep(10);
+        Thread.sleep(50);
+        this.findElevator(new Floor(1), new Floor(0));
+        Thread.sleep(50);
+        this.findElevator(new Floor(2), new Floor(4));
+        Thread.sleep(50);
+        this.findElevator(new Floor(10), new Floor(3));
+        Thread.sleep(50);
         this.findElevator(new Floor(4), new Floor(6));
-        Thread.sleep(10);
-        this.findElevator(new Floor(14), new Floor(16));
-        Thread.sleep(10);
-        this.findElevator(new Floor(11), new Floor(25));
-        Thread.sleep(10);
-        this.findElevator(new Floor(17), new Floor(7));
+        Thread.sleep(50);
+        this.findElevator(new Floor(7), new Floor(2));
+        Thread.sleep(50);
+        this.findElevator(new Floor(3), new Floor(9));
+
     }
 
 
@@ -56,30 +59,31 @@ public class ElevatorController {
     }
 
     public void findElevator(Floor fromFloor, Floor toFloor) {
-        System.out.printf("Finding elevator from %d to %d. \n", fromFloor.getFloorLevel(), toFloor.getFloorLevel());
-        String eleID = "###";
+        String eleID = "NULL";
         int closestFloorLevel = Integer.MAX_VALUE;
         int direciton = fromFloor.getDirectionBetweenFloor(toFloor);
 
         for (Elevator ele : this.elevators) {
-            if (direciton == ele.getMovingDirection() || ele.getMovingDirection() == 0) {
-                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor)) {
+            if (direciton == ele.getMovingDirection()) {
+                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor)  && ele.canPickup(fromFloor)) {
                     closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
                     eleID = ele.getID();
                 }
             }
         }
 
-        if (eleID.equals("###")) {
+        if (eleID.equals("NULL")) {
             for (Elevator ele : this.elevators) {
                 if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor)) {
                     closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
                     eleID = ele.getID();
                 }
             }
+            System.out.printf("%s : Added to spare queue [%d to %d]. \n", eleID, fromFloor.getFloorLevel(), toFloor.getFloorLevel());
             sendMessage(eleID, new Message("WAIT", String.valueOf(fromFloor.getFloorLevel())));
             sendMessage(eleID, new Message("WAIT", String.valueOf(toFloor.getFloorLevel())));
         } else {
+            System.out.printf("%s : Added to current queue [%d to %d]. \n", eleID, fromFloor.getFloorLevel(), toFloor.getFloorLevel());
             sendMessage(eleID, new Message("GOTO", String.valueOf(fromFloor.getFloorLevel())));
             sendMessage(eleID, new Message("GOTO", String.valueOf(toFloor.getFloorLevel())));
         }

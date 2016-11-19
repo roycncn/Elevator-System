@@ -3,8 +3,9 @@
  */
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Floor {
+public class Floor implements Comparable<Floor> {
     private int floorLevel;
     private int height;
     private ArrayList<Kiosk> kiosks;
@@ -22,15 +23,11 @@ public class Floor {
 
     public int getDirectionBetweenFloor(Floor floor) {
 
-        if (this.getFloorLevel() - floor.getFloorLevel() > 0) {
+        if (this.getFloorLevel() > floor.getFloorLevel()) {
             return -1;
         }
 
-        if (this.getFloorLevel() - floor.getFloorLevel() < 0) {
-            return 1;
-        }
-
-        return 0;
+        return 1;
     }
 
     public int getFloorLevel() {
@@ -39,5 +36,10 @@ public class Floor {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public int compareTo(Floor floor) {
+        return this.getFloorLevel() - floor.getFloorLevel();
     }
 }
