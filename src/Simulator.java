@@ -26,7 +26,7 @@ public class Simulator {
             for (ElevatorFactorySetting model : elevatorConfiguration.getAllSettings()) {
                 elevators.add(new Elevator(model.id, Integer.parseInt(model.floorLevel), elevatorConfiguration, elevatorController));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
