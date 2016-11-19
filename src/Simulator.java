@@ -10,15 +10,18 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
+
+    protected  ElevatorController elevatorController;
+    protected  ArrayList<Elevator> elevators;
     class ElevatorModel {
         String id;
         String floorLevel;
     }
 
-    public static void main(String[] args) {
+    public Simulator(){
 
-        ElevatorController elevatorController = new ElevatorController();
-        ArrayList<Elevator> elevators = new ArrayList<Elevator>();
+         this.elevatorController= new ElevatorController();
+         this.elevators= new ArrayList<Elevator>();
 
         try {
             Gson gson = new Gson();
@@ -40,5 +43,9 @@ public class Simulator {
         }
 
 
+    }
+
+    public ElevatorController getElevatorController(){
+       return this.elevatorController;
     }
 }
