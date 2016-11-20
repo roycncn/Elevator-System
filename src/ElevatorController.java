@@ -1,6 +1,8 @@
 import java.awt.datatransfer.FlavorListener;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by test on 2016/11/16.
@@ -10,6 +12,7 @@ public class ElevatorController {
     public ArrayList<Elevator> elevators;
     private Hashtable<String, AppThread> appThreads = null;
     private Hashtable<String, MessageBox> messageBoxes = null;
+    private BlockingQueue<String> testBoxes = new LinkedBlockingDeque<String>();
     private AppThread ticker;
 
     public ElevatorController() {
@@ -113,6 +116,11 @@ public class ElevatorController {
         for (String key : this.messageBoxes.keySet()) {
             this.sendMessage(this.getMessageBox(key).getID(), msg);
         }
+    }
+
+    public String getElevatorsStatus(){
+        return "LKF";
+
     }
 
     public void sendMessage(String id, Message msg) {
