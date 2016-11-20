@@ -1,0 +1,12 @@
+[
+	{
+		"accessibleFloorNumber" : [1,2,3,4,19,20],
+		"personId" : 99998852,
+		"roles" : ["ADMIN"]
+	},
+	{
+		"accessibleFloorNumber" : [19,20],
+		"personId" : 11118852,
+		"roles" : ["USER"]
+	}
+]

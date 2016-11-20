@@ -9,10 +9,10 @@ import java.util.HashMap;
 
 public class AccessConfiguration extends Configuration<AccessRule>  {
     private static AccessConfiguration accessConfiguration = null;
-    private static final String path = "";
+    private static final String path = "./JSON/AccessRules.json";
 
     private AccessConfiguration (String path) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
-        super(path, AccessRule.class.getField("personId"), AccessRule[].class);
+        super(path, AccessRule.class.getDeclaredField("personId"), AccessRule[].class);
     }
 
     public static AccessConfiguration getInstance() throws NoSuchFieldException, InvocationTargetException, IllegalAccessException{
@@ -49,13 +49,17 @@ public class AccessConfiguration extends Configuration<AccessRule>  {
         return false;
     }
 
-    private AccessRule findAccessRule(Person person) {
-        return accessConfiguration.index.get(String.valueOf(person.getPersonID()));
+    private AccessRule findAccessRule(String personId) {
+        return accessConfiguration.index.get(personId);
     }
 
-    public boolean isAutenticated(Person person, int toFloor)
+    public boolean isAuthenticated(String personId, int toFloor)
     {
-        AccessRule rule = this.findAccessRule(person);
-        return rule.getAccessibleFloorNumber().contains(toFloor);
+        AccessRule rule = this.findAccessRule(personId);
+        return rule != null && rule.getAccessibleFloorNumber().contains(toFloor);
+    }
+
+    public boolean isAuthenticated(String personId) {
+        return this.findAccessRule(personId) != null;
     }
 }

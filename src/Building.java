@@ -13,7 +13,7 @@ public class Building {
         this.floors = floors;
         this.inhousePerson = inhousePerson;
         this.elevatorController = elevatorController;
-        System.out.println("Log:Building Constructed...");
+//        System.out.println("Log:Building Constructed...");
 
 
     }

@@ -3,6 +3,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -10,15 +11,48 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
+    protected ElevatorController elevatorController;
+    protected ArrayList<Elevator> elevators;
+    protected Building building;
+    protected ArrayList<Kiosk> kioskArrayList;
 
-    protected  ElevatorController elevatorController;
-    protected  ArrayList<Elevator> elevators;
+    // TODO: 20/11/16 Need to put the constants to property file or config file in key-value pair
+    private static final int NUM_FLOOR = 20;
+    private static final int NUM_KIOSK_PER_FLOOR = 1;
+    private static final int FLOOR_HEIGHT = 500;
 
 
-    public Simulator(){
+    public Simulator() {
 
-         this.elevatorController= new ElevatorController();
-         this.elevators= new ArrayList<Elevator>();
+        this.elevatorController= new ElevatorController();
+        this.elevators= new ArrayList<Elevator>();
+        this.building = new Building(null,null,this.elevatorController);
+        this.kioskArrayList = new ArrayList<>();
+
+        ArrayList<Floor> floors = null;
+        try {
+            floors = new ArrayList<>();
+            for (int floorNum = 1; floorNum <= NUM_FLOOR; floorNum++) {
+                ArrayList<Kiosk> kiosks = new ArrayList<>();
+                Floor floor = new Floor(floorNum, FLOOR_HEIGHT, kiosks);
+
+                for (int kioskNum = 1; kioskNum <= NUM_KIOSK_PER_FLOOR; kioskNum++) {
+                    String id = "KIOSK_" + floorNum + "_" + kioskNum;
+                    Kiosk kiosk = new Kiosk(id, elevatorController, AccessConfiguration.getInstance(), floor);
+                    kiosks.add( kiosk );
+                    kioskArrayList.add(kiosk);
+                }
+                floors.add(floor);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        building.floors = floors;
 
         try {
             ElevatorConfiguration elevatorConfiguration = ElevatorConfiguration.getInstance();
@@ -31,6 +65,8 @@ public class Simulator {
         }
 
         elevatorController.regElevators(elevators);
+        elevatorController.regKiosks(kioskArrayList);
+        elevatorController.regBuilding(building);
 
         try {
             elevatorController.startSystem();

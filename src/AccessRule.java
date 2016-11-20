@@ -10,7 +10,7 @@ enum Role{
 }
 
 public class AccessRule {
-    private HashSet<String> accessibleFloorNumber = new HashSet<>();
+    private HashSet<Integer> accessibleFloorNumber = new HashSet<>();
     private long personId;
     private Role[] roles;
 
@@ -43,7 +43,7 @@ public class AccessRule {
         return roles;
     }
 
-    public HashSet<String> getAccessibleFloorNumber() {
-        return (HashSet<String>) accessibleFloorNumber.clone();
+    public HashSet<Integer> getAccessibleFloorNumber() {
+        return (HashSet<Integer>) accessibleFloorNumber.clone();
     }
 }

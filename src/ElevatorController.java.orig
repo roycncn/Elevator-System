@@ -43,6 +43,12 @@ public class ElevatorController {
             new Thread(elevator).start();
         }
 
+<<<<<<< 0ae4e1ce4afee0937fe9b3e0f6e3e8282d6bf4f2
+
+        this.findElevator(new Floor(2), new Floor(10));
+        this.findElevator(new Floor(6), new Floor(8));
+        this.findElevator(new Floor(7), new Floor(5));
+=======
         for (Kiosk k :
                 kiosks) {
             new Thread(k).start();
@@ -68,6 +74,7 @@ public class ElevatorController {
 //        this.findElevator(new Floor(7), new Floor(2));
 //        Thread.sleep(50);
 //        this.findElevator(new Floor(3), new Floor(9));
+>>>>>>> Finished access control on kisok
     }
 
 
@@ -83,7 +90,11 @@ public class ElevatorController {
 
     }
 
+<<<<<<< 0ae4e1ce4afee0937fe9b3e0f6e3e8282d6bf4f2
+    public synchronized void findElevator(Floor fromFloor, Floor toFloor) {
+=======
     public String findElevator(Floor fromFloor, Floor toFloor) {
+>>>>>>> Finished access control on kisok
         String eleID = "NULL";
         int closestFloorLevel = Integer.MAX_VALUE;
         int direciton = fromFloor.getDirectionBetweenFloor(toFloor);
@@ -140,6 +151,7 @@ public class ElevatorController {
         }
     }
 
+<<<<<<< 0ae4e1ce4afee0937fe9b3e0f6e3e8282d6bf4f2
     public ArrayList<String> getElevatorsStatus(){
         ArrayList<String> eleStatus = new ArrayList<String>();
 
@@ -151,6 +163,9 @@ public class ElevatorController {
         }
         return eleStatus;
     }
+=======
+
+>>>>>>> Finished access control on kisok
 
     public void sendMessage(String id, Message msg) {
         this.messageBoxes.get(id).send(msg);

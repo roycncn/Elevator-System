@@ -30,10 +30,10 @@ public class Person {
         return true;
     }
 
-    public HashSet<String> getAccessibleFloorNumbers() {
-        HashSet<String> accessibleFloorNumbers = new HashSet<>();
+    public HashSet<Integer> getAccessibleFloorNumbers() {
+        HashSet<Integer> accessibleFloorNumbers = new HashSet<>();
         accessibleFloors.stream().forEachOrdered((floor -> {
-            accessibleFloorNumbers.add( String.valueOf(floor.getFloorLevel()) );
+            accessibleFloorNumbers.add( floor.getFloorLevel() );
         }));
         return accessibleFloorNumbers;
     }
