@@ -6,10 +6,9 @@ public class Ticker extends AppThread {
     protected int numOfConsumer;
     private ElevatorController elevatorController;
 
-    public Ticker(String id, ElevatorController ec, int tick, int numOfConsumer) {
+    public Ticker(String id, ElevatorController ec, int tick) {
         super(id, ec);
         this.tick = tick;
-        this.numOfConsumer = numOfConsumer;
         this.elevatorController = ec;
     }
 
@@ -21,10 +20,7 @@ public class Ticker extends AppThread {
             } catch (Exception e) {
 
             }
-            if (--this.numOfConsumer > 0) {
-//                System.out.printf("----- Ticker %s-----\n", this.numOfConsumer);
                 this.elevatorController.sendMessageToAllElevators(new Message("TIC", "Message from ticker"));
-            }
         }
     }
 }

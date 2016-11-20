@@ -5,12 +5,5 @@
 		"accelerationSpeed" : 1.0,
 		"maximumSpeed" : 2.0,
 		"runMode" : "NORMAL"
-	},
-	{
-		"id" : "Elevator_1",
-		"floorLevel" : 25,
-		"accelerationSpeed" : 1.0,
-		"maximumSpeed" : 2.0,
-		"runMode" : "NORMAL"
 	}
 ]

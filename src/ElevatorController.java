@@ -1,4 +1,5 @@
 import java.awt.datatransfer.FlavorListener;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.concurrent.BlockingQueue;
@@ -30,26 +31,17 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 1, 5000);
+        this.ticker = new Ticker("Ticker", this, 1);
         new Thread(this.ticker).start();
 
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
-        Thread.sleep(50);
-        this.findElevator(new Floor(1), new Floor(0));
-        Thread.sleep(50);
-        this.findElevator(new Floor(2), new Floor(4));
-        Thread.sleep(50);
-        this.findElevator(new Floor(10), new Floor(3));
-        Thread.sleep(50);
-        this.findElevator(new Floor(4), new Floor(6));
-        Thread.sleep(50);
-        this.findElevator(new Floor(7), new Floor(2));
-        Thread.sleep(50);
-        this.findElevator(new Floor(3), new Floor(9));
 
+        this.findElevator(new Floor(2), new Floor(10));
+        this.findElevator(new Floor(6), new Floor(8));
+        this.findElevator(new Floor(7), new Floor(5));
     }
 
 
@@ -61,14 +53,14 @@ public class ElevatorController {
 
     }
 
-    public void findElevator(Floor fromFloor, Floor toFloor) {
+    public synchronized void findElevator(Floor fromFloor, Floor toFloor) {
         String eleID = "NULL";
         int closestFloorLevel = Integer.MAX_VALUE;
         int direciton = fromFloor.getDirectionBetweenFloor(toFloor);
 
         for (Elevator ele : this.elevators) {
             if (direciton == ele.getMovingDirection()) {
-                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor)  && ele.canPickup(fromFloor)) {
+                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor)) {
                     closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
                     eleID = ele.getID();
                 }
@@ -118,9 +110,16 @@ public class ElevatorController {
         }
     }
 
-    public String getElevatorsStatus(){
-        return "LKF";
+    public ArrayList<String> getElevatorsStatus(){
+        ArrayList<String> eleStatus = new ArrayList<String>();
 
+        for (Elevator elevator : this.elevators) {
+            eleStatus.add(elevator.getID() + " | " + elevator.currentFloor.getFloorLevel() + " | " + elevator.getMovingDirection());
+        }
+        if (eleStatus.size() == 0) {
+            eleStatus.add("Bye");
+        }
+        return eleStatus;
     }
 
     public void sendMessage(String id, Message msg) {

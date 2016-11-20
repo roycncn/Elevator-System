@@ -62,17 +62,17 @@ public class Elevator extends AppThread {
     public boolean canPickup(Floor floor) {
         switch (getMovingDirection()) {
             case 1:
-                if ( this.currentFloor.getFloorLevel() < floor.getFloorLevel() ) return false;
-                if ( this.floorQueue.get(this.floorQueue.size()-1).getFloorLevel() >= floor.getFloorLevel() ) return false;
+                if ( this.currentFloor.getFloorLevel() > floor.getFloorLevel() ) return true;
+                if ( this.floorQueue.get(this.floorQueue.size()-1).getFloorLevel() < floor.getFloorLevel() ) return true;
                 break;
             case -1:
-                if ( this.currentFloor.getFloorLevel() > floor.getFloorLevel() ) return false;
-                if ( this.floorQueue.get(this.floorQueue.size()-1).getFloorLevel() <= floor.getFloorLevel() ) return false;
+                if ( this.currentFloor.getFloorLevel() < floor.getFloorLevel() ) return true;
+                if ( this.floorQueue.get(this.floorQueue.size()-1).getFloorLevel() > floor.getFloorLevel() ) return true;
                 break;
             default:
                 break;
         }
-        return true;
+        return false;
     }
 
 
@@ -83,6 +83,16 @@ public class Elevator extends AppThread {
             Collections.sort(this.floorQueue);
         } else {
             Collections.sort(this.floorQueue, Collections.reverseOrder());
+        }
+    }
+
+    public void sortFloorQueueSpareInOrder(int i) {
+        // Descending order if i > 1
+        // else Ascending order
+        if (i > 0) {
+            Collections.sort(this.floorQueueSpare, Collections.reverseOrder());
+        } else {
+            Collections.sort(this.floorQueueSpare);
         }
     }
 
@@ -98,6 +108,14 @@ public class Elevator extends AppThread {
         int totalFloorsFromFinalToFloor = Math.abs(this.floorQueue.get(this.floorQueue.size() - 1).getFloorLevel() - floor.getFloorLevel());
 
         return Math.abs(totalFloorsFromCurrToFinal + totalFloorsFromFinalToFloor);
+    }
+
+    public Floor getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public int getCurrentHeight() {
+        return currentHeight;
     }
 
     public int emergency() {
@@ -123,13 +141,22 @@ public class Elevator extends AppThread {
                         break;
                     case "WAIT":
                         this.floorQueueSpare.add(new Floor(Integer.parseInt(msg.getDetail())));
+                        if (this.floorQueue.size() == 0) {
+                            this.floorQueue.add(this.floorQueueSpare.remove(0));
+                        } else {
+                            this.sortFloorQueueSpareInOrder(this.getMovingDirection());
+                        }
+
+                        System.out.println(msg.getDetail());
                         break;
                     case "TIC":
                         Date currTime = new Date();
                         switch (this.getMovingDirection()) {
                             case 0:
                                 if (this.floorQueue.size() == 0 && this.floorQueueSpare.size() > 0) {
-                                    this.addFloorToQueue(this.floorQueueSpare.remove(0));
+                                    while(this.floorQueueSpare.size() > 0) {
+                                        this.floorQueue.add(this.floorQueueSpare.remove(0));
+                                    }
                                 }
                                 this.markTime = currTime;
                                 break;
@@ -144,13 +171,13 @@ public class Elevator extends AppThread {
                                     if (this.currentFloor.getFloorLevel() == this.floorQueue.get(0).getFloorLevel()) {
                                         this.currentFloor = this.floorQueue.remove(0);
                                         this.currentHeight = this.currentFloor.getHeight();
+                                        Thread.sleep(500);
                                         System.out.printf("** %s reached level %d.\n", this.getID(), this.currentFloor.getFloorLevel());
 
                                         if (this.floorQueue.size() == 0 && this.floorQueueSpare.size() > 0) {
-                                            while (this.floorQueueSpare.size() > 0) {
                                                 this.floorQueue.add(this.floorQueueSpare.remove(0));
                                             }
-                                        }
+
 
                                         break;
                                     }

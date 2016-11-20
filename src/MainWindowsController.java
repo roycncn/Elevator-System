@@ -12,6 +12,9 @@ import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import static java.lang.Thread.*;
 
 public class MainWindowsController {
@@ -23,17 +26,33 @@ public class MainWindowsController {
 
     @FXML
     public void initialize(){
+
+
+
+    }
+
+    public void buttonOn(ActionEvent actionEvent) {
+
         Simulator ecs = new Simulator();
 
         Task task = new Task<Void>() {
             @Override
             public Void call() {
                 while(true){
-                    ElevatorStatusOutput.appendText(ecs.getElevatorController().getElevatorsStatus()+'\n');
+                    ArrayList<String> status = ecs.getElevatorController().getElevatorsStatus();
+                    try{
+                    ElevatorStatusOutput.clear();
+                    for (String st : status) {
+                        ElevatorStatusOutput.appendText(st + '\n');
+                    }
+                    ElevatorStatusOutput.appendText("============="+ status.size()+"==========================" + '\n');
+                    }catch(Exception e){
+                        e.printStackTrace();
 
+                    }
 
                     try {
-                        sleep(1000);
+                        sleep(200);
                     } catch (InterruptedException e) {
                         break;
                     }
@@ -44,10 +63,10 @@ public class MainWindowsController {
         new Thread(task).start();
 
 
-
     }
 
-    public void buttonOn(ActionEvent actionEvent) {
+    public void DiuOn(ActionEvent actionEvent) {
+
 
     }
 }
