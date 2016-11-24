@@ -32,9 +32,11 @@ public class Person {
 
     public HashSet<Integer> getAccessibleFloorNumbers() {
         HashSet<Integer> accessibleFloorNumbers = new HashSet<>();
-        accessibleFloors.stream().forEachOrdered((floor -> {
-            accessibleFloorNumbers.add( floor.getFloorLevel() );
-        }));
+
+        for (Floor floor :
+                accessibleFloors)
+            accessibleFloorNumbers.add(floor.getFloorLevel());
+
         return accessibleFloorNumbers;
     }
 
