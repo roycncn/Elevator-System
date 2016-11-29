@@ -51,9 +51,10 @@ public class ElevatorController {
         this.showKiosksStatus();
 
 
-        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "99998852|19"));
-        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "11118852|20"));
-        this.getMessageBox("KIOSK_19_1").send(new Message("GOTO", "99998852|5"));
+
+//        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "99998852|19"));
+//        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "11118852|20"));
+//        this.getMessageBox("KIOSK_19_1").send(new Message("GOTO", "99998852|5"));
 
 
 //        Thread.sleep(50);

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,32 +36,7 @@ public class MainWindowsController {
 
         Simulator ecs = new Simulator();
 
-        Task task = new Task<Void>() {
-            @Override
-            public Void call() {
-                while(true){
-                    ArrayList<String> status = ecs.getElevatorController().getElevatorsStatus();
-                    try{
-                    ElevatorStatusOutput.clear();
-                    for (String st : status) {
-                        ElevatorStatusOutput.appendText(st + '\n');
-                    }
-                    ElevatorStatusOutput.appendText("============="+ status.size()+"==========================" + '\n');
-                    }catch(Exception e){
-                        e.printStackTrace();
 
-                    }
-
-                    try {
-                        sleep(200);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
 
 
     }
