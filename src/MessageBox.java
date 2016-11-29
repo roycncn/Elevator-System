@@ -17,6 +17,10 @@ public class MessageBox {
         notify();
     }
 
+    public final synchronized int getLength() {
+        return this.messageQueue.size();
+    }
+
     public String getID () {
         return this.id;
     }

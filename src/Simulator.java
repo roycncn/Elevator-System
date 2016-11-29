@@ -73,23 +73,6 @@ public class Simulator {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        try {
-
-
-            elevatorController.findElevator(new Floor(1), new Floor(0));
-            Thread.sleep(2000);
-            elevatorController.findElevator(new Floor(2), new Floor(4));
-            Thread.sleep(2000);
-            elevatorController.findElevator(new Floor(10), new Floor(3));
-            Thread.sleep(2000);
-            elevatorController.findElevator(new Floor(7), new Floor(2));
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public ElevatorController getElevatorController(){

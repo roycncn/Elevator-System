@@ -36,15 +36,14 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 1);
+        this.ticker = new Ticker("Ticker", this, 200);
         new Thread(this.ticker).start();
 
         for (Elevator elevator : elevators) {
             new Thread(elevator).start();
         }
 
-        for (Kiosk k :
-                kiosks) {
+        for (Kiosk k : kiosks) {
             new Thread(k).start();
         }
 
@@ -74,8 +73,7 @@ public class ElevatorController {
 
     public void showKiosksStatus() {
         Message ping = new Message("PING", "");
-        for (Kiosk k :
-                kiosks) {
+        for (Kiosk k : kiosks) {
             sendMessage(k.getID(), ping);
         }
     }
@@ -145,7 +143,7 @@ public class ElevatorController {
         ArrayList<String> eleStatus = new ArrayList<String>();
 
         for (Elevator elevator : this.elevators) {
-            eleStatus.add(elevator.getID() + " | " + elevator.currentFloor.getFloorLevel() + " | " + elevator.getMovingDirection());
+            eleStatus.add(elevator.getID() + " | " + elevator.getCurrentFloor().getFloorLevel() + " | " + elevator.getMovingDirection());
         }
         if (eleStatus.size() == 0) {
             eleStatus.add("Bye");
