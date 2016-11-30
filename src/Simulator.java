@@ -32,7 +32,7 @@ public class Simulator {
         ArrayList<Floor> floors = null;
         try {
             floors = new ArrayList<>();
-            for (int floorNum = 1; floorNum <= NUM_FLOOR; floorNum++) {
+            for (int floorNum = 0; floorNum <= NUM_FLOOR; floorNum++) {
                 ArrayList<Kiosk> kiosks = new ArrayList<>();
                 Floor floor = new Floor(floorNum, FLOOR_HEIGHT, kiosks);
 
