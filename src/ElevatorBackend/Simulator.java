@@ -1,8 +1,5 @@
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+package ElevatorBackend;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -64,7 +61,7 @@ public class Simulator {
             ElevatorConfiguration elevatorConfiguration = ElevatorConfiguration.getInstance();
 
             for (ElevatorFactorySetting model : elevatorConfiguration.getAllSettings()) {
-                elevators.add(new Elevator(model.id, Integer.parseInt(model.floorLevel), elevatorConfiguration, elevatorController));
+                elevators.add(new Elevator(model.getId(), Integer.parseInt(model.getFloorLevel()), elevatorConfiguration, elevatorController));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,10 +78,17 @@ public class Simulator {
         }
     }
 
-    protected ElevatorController getElevatorController(){
+    public ElevatorController getElevatorController(){
        return this.elevatorController;
     }
-    protected ArrayList<Kiosk> getkioskArrayList(){
+    public ArrayList<Kiosk> getkioskArrayList(){
         return this.kioskArrayList;
     }
+    public ArrayList<Elevator> getElevators() {
+        return elevators;
+    }
+    public Building getBuilding() {
+        return building;
+    }
+
 }

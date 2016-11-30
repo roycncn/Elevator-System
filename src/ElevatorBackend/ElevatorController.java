@@ -1,7 +1,6 @@
-import java.awt.datatransfer.FlavorListener;
-import java.awt.image.AreaAveragingScaleFilter;
+package ElevatorBackend;
+
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -25,7 +24,7 @@ public class ElevatorController {
         this.elevatorMessageBoxes = new ArrayList<MessageBox>();
         this.kioskMessageBoxes = new ArrayList<MessageBox>();
 
-        System.out.println("Log: ElevatorController Constructed...");
+        System.out.println("Log: ElevatorBackend.ElevatorController Constructed...");
     }
 
     public void regElevators(ArrayList<Elevator> elevators) {
@@ -41,7 +40,7 @@ public class ElevatorController {
     }
 
     public void startSystem() throws InterruptedException {
-        this.ticker = new Ticker("Ticker", this, 200);
+        this.ticker = new Ticker("ElevatorBackend.Ticker", this, 200);
         this.ticker.start();
 
         for (Elevator elevator : elevators) {
@@ -75,7 +74,7 @@ public class ElevatorController {
             if (direction == ele.getMovingDirection()) {
                 if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor, toFloor)) {
                     closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
-                    eleID = ele.getElevatorID();
+                    eleID =String.valueOf(ele.getElevatorID());
                 }
             }
         }
@@ -84,7 +83,7 @@ public class ElevatorController {
             for (Elevator ele : this.elevators) {
                 if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor)) {
                     closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
-                    eleID = ele.getElevatorID();
+                    eleID =String.valueOf(ele.getElevatorID());
                 }
             }
             System.out.printf("%s : Added to spare queue [%d to %d]. \n", eleID, fromFloor.getFloorLevel(), toFloor.getFloorLevel());

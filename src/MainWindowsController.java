@@ -2,83 +2,120 @@
  * Created by roycn on 2016/11/19.
  */
 
-import com.sun.tracing.dtrace.StabilityLevel;
-import javafx.application.Application;
+import ElevatorBackend.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.concurrent.Task;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 //import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.Thread.*;
 
 public class MainWindowsController {
 
 
-    public TextArea ElevatorStatusOutput;
-    protected  Simulator ecs;
+    public TextArea ElevatorStatus;
+    protected Simulator ecs;
 
 
     @FXML
     public void initialize(){
         this.ecs = Simulator.getInstance();
-    }
 
-    public void buttonOn(ActionEvent actionEvent) {
-        System.out.println("This Button is wasted");
-        ecs.elevatorController.findElevator(new Floor(0), new Floor(10));
-        ecs.elevatorController.findElevator(new Floor(2), new Floor(7));
-        ecs.elevatorController.findElevator(new Floor(7), new Floor(3));
-        ecs.elevatorController.findElevator(new Floor(6), new Floor(2));
+        //Reg Listener to Elevators
+        for (Elevator ele:ecs.getElevators()){
+            ele.addPositionListener(new ElevatorPositionListener() {
+                @Override
+                public void onPositionChange() {
+                    UpdateElevatorStatus();
+                }
+            });
 
-    }
-
-
-    public void addBtnOn(ActionEvent actionEvent) {
-
-    }
-
-    public void useKiosk(ActionEvent actionEvent) {
-
-        List<String> choices = new ArrayList<>();
-        List<Kiosk> kiosks = ecs.getkioskArrayList();
-        for (Kiosk k : kiosks) {
-            choices.add(k.getKioskID());
         }
+        UpdateElevatorStatus();
+        ElevatorStatus.setEditable(false);
 
-        ChoiceDialog<String> Cdialog = new ChoiceDialog<>(choices.get(0),choices);
-        Cdialog.setTitle("Choose Kiosk");
-        Cdialog.setHeaderText("Look, a Choice Dialog");
-        Cdialog.setContentText("Choose your Kiosk:");
 
-// Traditional way to get the response value.
-        Optional<String> Cresult = Cdialog.showAndWait();
-        if (Cresult.isPresent()){
-            TextInputDialog dialog = new TextInputDialog("");
-            dialog.setTitle("You Are in front of"+Cresult.get());
-            dialog.setHeaderText("You Are in front of"+Cresult.get());
-            dialog.setContentText("Please enter your Destination:");
 
-// Traditional way to get the response value.
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                System.out.println("You form: "+Cresult.get() +" Going to" + result.get());
+
+    }
+    public void UpdateElevatorStatus(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                String result ="";
+                for (String status:ecs.getElevatorController().getElevatorsStatus()
+                        ) {
+                    result+= status+"\n";
+                }
+                ElevatorStatus.setText(result);
             }
+        });
+
+
+    }
+
+    public void onUseKioskBtn(ActionEvent actionEvent) {
+        List<String> KioskChoices = new ArrayList<>();
+        List<String> DstChoices = new ArrayList<>();
+        //Generate KioskChoices
+        for (Kiosk k : ecs.getkioskArrayList()) {
+            KioskChoices.add(String.valueOf(k.getLocation().getFloorLevel()));
+        }
+        //Generate DstChoices
+        for (int i=0;i<ecs.getBuilding().getFloorNum();i++) {
+            DstChoices.add(String.valueOf(i));
+        }
+        ChoiceDialog<String> kioskFloorDlg = new ChoiceDialog<>(KioskChoices.get(0),KioskChoices);
+        kioskFloorDlg.setTitle("Choose Kiosk");
+        kioskFloorDlg.setHeaderText("Choose your Kiosk:");
+        kioskFloorDlg.setContentText("Choose your Kiosk:");
+        Optional<String> kioskFloorResult = kioskFloorDlg.showAndWait();
+        if (kioskFloorResult.isPresent()){
+            ChoiceDialog<String> dstFloorDlg = new ChoiceDialog<>(DstChoices.get(0),DstChoices);
+            dstFloorDlg.setTitle("You are in front of Level "+kioskFloorResult.get()+"'s Kiosk");
+            dstFloorDlg.setHeaderText("You are in front of Level "+kioskFloorResult.get()+"'s Kiosk");
+            dstFloorDlg.setContentText("Please enter your Destination:");
+            Optional<String> dstFloorResult = dstFloorDlg.showAndWait();
+            // Traditional way to get the response value.
+            if (dstFloorResult.isPresent()&&dstFloorResult.get()!= null){
+                int from = Integer.parseInt(kioskFloorResult.get());
+                int to = Integer.parseInt(dstFloorResult.get());
+                if(from!=to){
+                    //Find A elevator
+                    String eleId = ecs.getElevatorController().findElevator(new Floor(from), new Floor(to));
+                    System.out.println("Elevator "+eleId+" will serve you");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText(null);
+                    alert.setContentText(eleId+" will serve you");
+                    alert.showAndWait();
+                }else {
+                    //When from floor == to floor
+                    System.out.println("No Need Move!");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Just Stay Here");
+                    alert.showAndWait();
+                }//End if(from!=to)
+            }else{
+                //When the Dst is Null
+                System.out.println("No Dst!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText(null);
+                alert.setContentText("Please Input your Destination Flooor");
+                alert.showAndWait();
+            }//End if(DstFloorResult.isPresent()&&DstFloorResult.get()!= null)
 
         }
+
+    }
+
+    public void onTestBtn(ActionEvent actionEvent) {
 
     }
 }

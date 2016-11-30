@@ -1,3 +1,5 @@
+package ElevatorBackend;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
@@ -39,22 +41,3 @@ public class ElevatorConfiguration extends Configuration<ElevatorFactorySetting>
     }
 }
 
-class ElevatorFactorySetting {
-    String id;
-    String floorLevel;
-    private float accelerationSpeed;
-    private float maximumSpeed;
-    private String runMode;
-
-    public float getAccelerationSpeed() {
-        return this.accelerationSpeed;
-    }
-
-    public float getMaximumSpeed() {
-        return this.maximumSpeed;
-    }
-
-    public String getRunMode() {
-        return this.runMode;
-    }
-}

@@ -1,5 +1,6 @@
+package ElevatorBackend;
 
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Elevator extends Thread {
     private Date markTime;
     private String elevatorID;
     private MessageBox messageBox;
+    private final ArrayList<ElevatorPositionListener> listeners = new ArrayList<>();
 
     public Elevator(String id, int initLevel, Configuration config, ElevatorController ec) {
         this.elevatorID = id;
@@ -29,19 +31,6 @@ public class Elevator extends Thread {
         System.out.printf("%s is created at level %d!\n", this.getElevatorID(), this.currentFloor.getFloorLevel());
     }
 
-    public void addFloorToCurrentQueue(Floor toFloor) {
-        this.floorQueue.add(toFloor);
-        this.sortFloorQueueInOrder(getMovingDirection());
-    }
-
-    public void addFloorToSpareQueue(Floor toFloor) {
-        this.floorQueueSpare.add(toFloor);
-        if (this.floorQueue.size() == 0) {
-            this.floorQueue.add(this.floorQueueSpare.remove(0));
-        } else {
-            this.sortFloorQueueSpareInOrder(this.getMovingDirection());
-        }
-    }
 
     public int getMovingDirection() {
         // Stop
@@ -60,42 +49,6 @@ public class Elevator extends Thread {
         }
 
         return 0;
-    }
-
-    public boolean canPickup(Floor fromFloor, Floor toFloor) {
-        switch (getMovingDirection()) {
-            case 1:
-                if (this.currentFloor.getFloorLevel() > fromFloor.getFloorLevel()) return false;
-                if (this.floorQueue.get(0).getFloorLevel() < toFloor.getFloorLevel()) return false;
-                break;
-            case -1:
-                if (this.currentFloor.getFloorLevel() < fromFloor.getFloorLevel()) return false;
-                if (this.floorQueue.get(0).getFloorLevel() > toFloor.getFloorLevel()) return false;
-                break;
-            default:
-                return false;
-        }
-        return true;
-    }
-
-    public void sortFloorQueueInOrder(int i) {
-        // Ascending order if i > 1
-        // else Descending order
-        if (i > 0) {
-            Collections.sort(this.floorQueue);
-        } else {
-            Collections.sort(this.floorQueue, Collections.reverseOrder());
-        }
-    }
-
-    public void sortFloorQueueSpareInOrder(int i) {
-        // Descending order if i > 1
-        // else Ascending order
-        if (i > 0) {
-            Collections.sort(this.floorQueueSpare, Collections.reverseOrder());
-        } else {
-            Collections.sort(this.floorQueueSpare);
-        }
     }
 
     public int getFloorLevelDifferentToFloor(Floor floor) {
@@ -135,12 +88,27 @@ public class Elevator extends Thread {
         return currentHeight;
     }
 
-    public int emergency() {
-        return 0;
+    public String getElevatorID() {
+        return elevatorID;
     }
 
-    public String getRunMode() {
-        return "123";
+
+    public void addFloorToCurrentQueue(Floor toFloor) {
+        this.floorQueue.add(toFloor);
+        this.sortFloorQueueInOrder(getMovingDirection());
+    }
+
+    public void addFloorToSpareQueue(Floor toFloor) {
+        this.floorQueueSpare.add(toFloor);
+        if (this.floorQueue.size() == 0) {
+            this.floorQueue.add(this.floorQueueSpare.remove(0));
+        } else {
+            this.sortFloorQueueSpareInOrder(this.getMovingDirection());
+        }
+    }
+
+    public void addPositionListener(ElevatorPositionListener listener){
+        listeners.add(listener);
     }
 
     public void move() {
@@ -155,7 +123,7 @@ public class Elevator extends Thread {
             this.markTime = currTime;
         }
 
-        // Travel to next level takes 2000 ms
+
         if (this.floorQueue.size() > 0) {
             if (this.currentFloor.getFloorLevel() == this.floorQueue.get(0).getFloorLevel()) {
                 this.reachFloor(this.floorQueue.remove(0));
@@ -165,29 +133,14 @@ public class Elevator extends Thread {
                 if (currentHeight <= 0) {
                     this.reachFloor(new Floor(this.currentFloor.getFloorLevel() + this.getMovingDirection()));
                     System.out.printf("%s reached level %d.\n", this.getElevatorID(), this.currentFloor.getFloorLevel());
+                    for (ElevatorPositionListener listener:listeners){
+                        listener.onPositionChange();
+                    }
                 }
             }
         }
 
 
-//        this.currentHeight -= this.speed * 2;
-//        if (this.currentHeight <= 0) {
-//            this.currentFloor = new Floor(this.currentFloor.getFloorLevel() + this.getMovingDirection());
-//            this.currentHeight = this.currentFloor.getHeight();
-//
-//            if (this.currentFloor.getFloorLevel() == this.floorQueue.get(0).getFloorLevel()) {
-//                this.currentFloor = this.floorQueue.remove(0);
-//                this.currentHeight = this.currentFloor.getHeight();
-//                //Thread.sleep(100);
-//                System.out.printf("** %s reached level %d.\n", this.getID(), this.currentFloor.getFloorLevel());
-//
-//                if (this.floorQueue.size() == 0 && this.floorQueueSpare.size() > 0) {
-//                    this.floorQueue.add(this.floorQueueSpare.remove(0));
-//                }
-//
-//            }
-            //System.out.printf("%s reached level %d.\n", this.getID(), this.currentFloor.getFloorLevel());
-//        }
 
     }
 
@@ -196,8 +149,40 @@ public class Elevator extends Thread {
         this.currentHeight = floor.getHeight();
     }
 
-    public String getElevatorID() {
-        return elevatorID;
+    public boolean canPickup(Floor fromFloor, Floor toFloor) {
+        switch (getMovingDirection()) {
+            case 1:
+                if (this.currentFloor.getFloorLevel() > fromFloor.getFloorLevel()) return false;
+                if (this.floorQueue.get(0).getFloorLevel() < toFloor.getFloorLevel()) return false;
+                break;
+            case -1:
+                if (this.currentFloor.getFloorLevel() < fromFloor.getFloorLevel()) return false;
+                if (this.floorQueue.get(0).getFloorLevel() > toFloor.getFloorLevel()) return false;
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    public void sortFloorQueueInOrder(int i) {
+        // Ascending order if i > 1
+        // else Descending order
+        if (i > 0) {
+            Collections.sort(this.floorQueue);
+        } else {
+            Collections.sort(this.floorQueue, Collections.reverseOrder());
+        }
+    }
+
+    public void sortFloorQueueSpareInOrder(int i) {
+        // Descending order if i > 1
+        // else Ascending order
+        if (i > 0) {
+            Collections.sort(this.floorQueueSpare, Collections.reverseOrder());
+        } else {
+            Collections.sort(this.floorQueueSpare);
+        }
     }
 
     @Override
@@ -219,7 +204,7 @@ public class Elevator extends Thread {
                     this.move();
                     break;
                 default:
-                    // System.out.println(this.getID()+"Default Message : " + msg.getDetail());
+                    // System.out.println(this.getID()+"Default ElevatorBackend.Message : " + msg.getDetail());
                     break;
                 //Finished fetch and deal with msg from queue
 

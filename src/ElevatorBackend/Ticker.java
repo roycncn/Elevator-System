@@ -1,3 +1,5 @@
+package ElevatorBackend;
+
 /**
  * Created by roycn on 2016/11/18.
  */
@@ -20,7 +22,7 @@ public class Ticker extends Thread {
                 Thread.sleep(tick);
             } catch (Exception e) {
             }
-            this.elevatorController.sendMessageToAllElevators(new Message("TIC", "Message from ticker"));
+            this.elevatorController.sendMessageToAllElevators(new Message("TIC", "ElevatorBackend.Message from ticker"));
         }
     }
 }

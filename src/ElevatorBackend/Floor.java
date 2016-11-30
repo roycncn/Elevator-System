@@ -1,9 +1,8 @@
-/**
+package ElevatorBackend; /**
  * Created by test on 2016/11/16.
  */
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Floor implements Comparable<Floor> {
     private int floorLevel;

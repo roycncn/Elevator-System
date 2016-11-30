@@ -1,13 +1,13 @@
 //Protocol
 
-ElevatorController -->Elevator
+ElevatorBackend.ElevatorController -->ElevatorBackend.Elevator
 Send GOTO signal
      [COL_COUNT(this case 3)]<INT>|GOTO<STRING>|[FloorNumber]<INT>
 
-ElevatorController -->Elevator
+ElevatorBackend.ElevatorController -->ElevatorBackend.Elevator
 Send GETPOSITION signal
      2<INT>|GETPOSITION<STRING>
 
-ElevatorController <-- Elevator
+ElevatorBackend.ElevatorController <-- ElevatorBackend.Elevator
 Send POSITION information
      3<INT>|[Slot]<INT>|[Moving direction after next tick]<STRING>

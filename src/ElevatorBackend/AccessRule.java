@@ -1,13 +1,8 @@
+package ElevatorBackend;
+
 import com.google.gson.Gson;
 
 import java.util.HashSet;
-
-/**
- * Created by Administrator on 19/11/16.
- */
-enum Role{
-    ADMIN, USER
-}
 
 public class AccessRule {
     private HashSet<Integer> accessibleFloorNumber = new HashSet<>();

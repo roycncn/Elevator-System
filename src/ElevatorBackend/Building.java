@@ -1,3 +1,5 @@
+package ElevatorBackend;
+
 import java.util.ArrayList;
 
 /**
@@ -13,7 +15,7 @@ public class Building {
         this.floors = floors;
         this.inhousePerson = inhousePerson;
         this.elevatorController = elevatorController;
-//        System.out.println("Log:Building Constructed...");
+//        System.out.println("Log:ElevatorBackend.Building Constructed...");
 
 
     }
@@ -25,6 +27,7 @@ public class Building {
     public Floor getFloor(String level){
         return floors.get(Integer.parseInt(level));
     }
+    public int getFloorNum(){ return floors.size();}
 }
 
 

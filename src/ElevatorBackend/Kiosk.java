@@ -1,3 +1,5 @@
+package ElevatorBackend;
+
 /**
  * Created by test on 2016/11/16.
  */
@@ -27,21 +29,21 @@ public class Kiosk extends Thread {
                     case "PAUT":
                         personId = msg.getDetail();
                         System.out.println(this.config.isAuthenticated(personId) ? "[ OK ] " : "[FAIL] "
-                                + "Authentication of Person with ID = " + personId);
+                                + "Authentication of ElevatorBackend.Person with ID = " + personId);
                         break;
                     case "FAUT":
                         idFloorPair = msg.getDetail().split("\\|");
                         System.out.println(this.accessible(idFloorPair[0], idFloorPair[1]) ? "[ OK ] " : "[FAIL] "
-                                + "Authentication of Person with ID = " + idFloorPair[0]
+                                + "Authentication of ElevatorBackend.Person with ID = " + idFloorPair[0]
                                 + "to" + idFloorPair[1] + " floor");
                         break;
                     case "GOTO":
                         idFloorPair = msg.getDetail().split("\\|");
                         String result = this.goToFloor(idFloorPair[0], idFloorPair[1]);
-                        System.out.printf("[ OK ] %s : Elevator# %s is assigned to Person# %s\n", this.kioskID,result, idFloorPair[0]);
+                        System.out.printf("[ OK ] %s : ElevatorBackend.Elevator# %s is assigned to ElevatorBackend.Person# %s\n", this.kioskID,result, idFloorPair[0]);
                         break;
                     case "PING":
-                        System.out.printf("[PING] Kiosk# %s at Floor#%2d ONLINE\n", this.kioskID, this.location.getFloorLevel());
+                        System.out.printf("[PING] ElevatorBackend.Kiosk# %s at ElevatorBackend.Floor#%2d ONLINE\n", this.kioskID, this.location.getFloorLevel());
                         break;
                     default:
                         break;
@@ -66,7 +68,7 @@ public class Kiosk extends Thread {
     }
 
     /**
-     * @param personId ID of Elevator which serves the request
+     * @param personId ID of ElevatorBackend.Elevator which serves the request
      * @param level
      */
     private String goToFloor(String personId, String level) {
