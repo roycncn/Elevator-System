@@ -12,14 +12,19 @@ public class ElevatorController {
     public ArrayList<Kiosk> kiosks;
     public ArrayList<Elevator> elevators;
     public Building building;
-    private Hashtable<String, AppThread> appThreads = null;
-    private Hashtable<String, MessageBox> messageBoxes = null;
     private BlockingQueue<String> testBoxes = new LinkedBlockingDeque<String>();
-    private AppThread ticker;
+    private Ticker ticker;
+    private ArrayList<MessageBox> elevatorMessageBoxes = null;
+    private ArrayList<MessageBox> kioskMessageBoxes = null;
 
     public ElevatorController() {
-        this.appThreads = new Hashtable<String, AppThread>();
-        this.messageBoxes = new Hashtable<String, MessageBox>();
+
+
+        // New**
+        this.elevators = new ArrayList<Elevator>();
+        this.elevatorMessageBoxes = new ArrayList<MessageBox>();
+        this.kioskMessageBoxes = new ArrayList<MessageBox>();
+
         System.out.println("Log: ElevatorController Constructed...");
     }
 
@@ -37,10 +42,10 @@ public class ElevatorController {
 
     public void startSystem() throws InterruptedException {
         this.ticker = new Ticker("Ticker", this, 200);
-        new Thread(this.ticker).start();
+        this.ticker.start();
 
         for (Elevator elevator : elevators) {
-            new Thread(elevator).start();
+            elevator.start();
         }
 
         for (Kiosk k : kiosks) {
@@ -48,15 +53,12 @@ public class ElevatorController {
         }
 
         this.showKiosksStatus();
-
-
     }
-
 
     public void showKiosksStatus() {
         Message ping = new Message("PING", "");
-        for (Kiosk k : kiosks) {
-            sendMessage(k.getID(), ping);
+        for (MessageBox messageBox : this.kioskMessageBoxes) {
+            messageBox.send(ping);
         }
     }
 
@@ -71,9 +73,9 @@ public class ElevatorController {
 
         for (Elevator ele : this.elevators) {
             if (direction == ele.getMovingDirection()) {
-                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor)) {
+                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor, toFloor)) {
                     closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
-                    eleID = ele.getID();
+                    eleID = ele.getElevatorID();
                 }
             }
         }
@@ -82,50 +84,37 @@ public class ElevatorController {
             for (Elevator ele : this.elevators) {
                 if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor)) {
                     closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
-                    eleID = ele.getID();
+                    eleID = ele.getElevatorID();
                 }
             }
             System.out.printf("%s : Added to spare queue [%d to %d]. \n", eleID, fromFloor.getFloorLevel(), toFloor.getFloorLevel());
-            sendMessage(eleID, new Message("WAIT", String.valueOf(fromFloor.getFloorLevel())));
-            sendMessage(eleID, new Message("WAIT", String.valueOf(toFloor.getFloorLevel())));
+            this.getElevator(eleID).addFloorToSpareQueue(fromFloor);
+            this.getElevator(eleID).addFloorToSpareQueue(toFloor);
         } else {
             System.out.printf("%s : Added to current queue [%d to %d]. \n", eleID, fromFloor.getFloorLevel(), toFloor.getFloorLevel());
-            sendMessage(eleID, new Message("GOTO", String.valueOf(fromFloor.getFloorLevel())));
-            sendMessage(eleID, new Message("GOTO", String.valueOf(toFloor.getFloorLevel())));
+            this.getElevator(eleID).addFloorToCurrentQueue(fromFloor);
+            this.getElevator(eleID).addFloorToCurrentQueue(toFloor);
         }
 
         return eleID;
     }
 
-    public void regThread(AppThread appThread) {
-        this.appThreads.put(appThread.getID(), appThread);
-        this.messageBoxes.put(appThread.getID(), new MessageBox(appThread.getID()));
-    }
-
-    public AppThread getThread(String id) {
-        return this.appThreads.get(id);
-    }
-
-    public AppThread getTicker() {
+    public Ticker getTicker() {
         return this.ticker;
     }
 
 
-    public MessageBox getMessageBox(String id) {
-        return this.messageBoxes.get(id);
-    }
-
     public void sendMessageToAllElevators(Message msg) {
-        for (String key : this.messageBoxes.keySet()) {
-            this.sendMessage(this.getMessageBox(key).getID(), msg);
-        }
+       for (MessageBox messageBox : this.elevatorMessageBoxes) {
+           messageBox.send(msg);
+       }
     }
 
-    public ArrayList<String> getElevatorsStatus(){
+    public ArrayList<String> getElevatorsStatus() {
         ArrayList<String> eleStatus = new ArrayList<String>();
 
         for (Elevator elevator : this.elevators) {
-            eleStatus.add(elevator.getID() + " | " + elevator.getCurrentFloor().getFloorLevel() + " | " + elevator.getMovingDirection());
+            eleStatus.add(elevator.getElevatorID() + " | " + elevator.getCurrentFloor().getFloorLevel() + " | " + elevator.getMovingDirection());
         }
         if (eleStatus.size() == 0) {
             eleStatus.add("Bye");
@@ -133,8 +122,24 @@ public class ElevatorController {
         return eleStatus;
     }
 
-    public void sendMessage(String id, Message msg) {
-        this.messageBoxes.get(id).send(msg);
+    public Elevator getElevator(String id) {
+        for (Elevator ele : this.elevators) {
+            if (ele.getElevatorID().equals(id)) {
+                return ele;
+            }
+        }
+        return null;
     }
 
+    public MessageBox getElevatorMessageBox(Elevator elevator) {
+        MessageBox mb = new MessageBox(elevator.getElevatorID());
+        this.elevatorMessageBoxes.add(mb);
+        return mb;
+    }
+
+    public MessageBox getKioskMessageBox(Kiosk kiosk) {
+        MessageBox mb = new MessageBox(kiosk.getKioskID());
+        this.kioskMessageBoxes.add(mb);
+        return mb;
+    }
 }

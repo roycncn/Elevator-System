@@ -1,23 +1,26 @@
 /**
  * Created by test on 2016/11/16.
  */
-public class Kiosk extends AppThread {
+public class Kiosk extends Thread {
     private AccessConfiguration config;
     private ElevatorController elevatorController;
     private final Floor location;
+    private MessageBox messageBox = null;
+    private String kioskID;
 
     public Kiosk(String id, ElevatorController elevatorController, AccessConfiguration accessConfiguration, Floor location) {
-        super(id, elevatorController);
         this.config = accessConfiguration;
         this.location = location;
         this.elevatorController = elevatorController;
+        this.kioskID = id;
+        this.messageBox = elevatorController.getKioskMessageBox(this);
     }
 
     public void run() {
         while (true) {
             try {
                 Thread.sleep(10); // need revise
-                Message msg = this.getMessageBox().receive();
+                Message msg = this.messageBox.receive();
                 String personId;
                 String[] idFloorPair;
                 switch (msg.getType()) {
@@ -35,10 +38,10 @@ public class Kiosk extends AppThread {
                     case "GOTO":
                         idFloorPair = msg.getDetail().split("\\|");
                         String result = this.goToFloor(idFloorPair[0], idFloorPair[1]);
-                        System.out.printf("[ OK ] %s : Elevator# %s is assigned to Person# %s\n", this.getID(),result, idFloorPair[0]);
+                        System.out.printf("[ OK ] %s : Elevator# %s is assigned to Person# %s\n", this.kioskID,result, idFloorPair[0]);
                         break;
                     case "PING":
-                        System.out.printf("[PING] Kiosk# %s at Floor#%2d ONLINE\n", this.getID(), this.location.getFloorLevel());
+                        System.out.printf("[PING] Kiosk# %s at Floor#%2d ONLINE\n", this.kioskID, this.location.getFloorLevel());
                         break;
                     default:
                         break;
@@ -51,6 +54,15 @@ public class Kiosk extends AppThread {
 
     private boolean accessible(String personId, String level) {
         return config.isAuthenticated(personId, Integer.parseInt(level));
+    }
+
+    public Floor getLocation() {
+        return location;
+    }
+
+
+    public String getKioskID() {
+        return this.kioskID;
     }
 
     /**

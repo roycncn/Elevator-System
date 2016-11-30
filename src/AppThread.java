@@ -7,8 +7,6 @@ public abstract class AppThread implements Runnable {
 
     public AppThread(String id, ElevatorController ec) {
         this.id = id;
-        ec.regThread(this);
-        this.messageBox = ec.getMessageBox(this.id);
     }
 
     public MessageBox getMessageBox () {

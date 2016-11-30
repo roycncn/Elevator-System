@@ -24,7 +24,7 @@ public class ElevatorConfiguration extends Configuration<ElevatorFactorySetting>
     }
 
     public ElevatorFactorySetting findElevatorFactorySetting(Elevator elevator) {
-        return this.index.get(String.valueOf(elevator.getID()));
+        return this.index.get(String.valueOf(elevator.getElevatorID()));
     }
 
     public ElevatorFactorySetting[] getAllSettings() {

@@ -16,7 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.jetbrains.annotations.Nullable;
+//import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,17 +35,19 @@ public class MainWindowsController {
     @FXML
     public void initialize(){
         this.ecs = Simulator.getInstance();
-
-
     }
 
     public void buttonOn(ActionEvent actionEvent) {
         System.out.println("This Button is wasted");
+        ecs.elevatorController.findElevator(new Floor(0), new Floor(10));
+        ecs.elevatorController.findElevator(new Floor(2), new Floor(7));
+        ecs.elevatorController.findElevator(new Floor(7), new Floor(3));
+        ecs.elevatorController.findElevator(new Floor(6), new Floor(2));
+
     }
 
 
     public void addBtnOn(ActionEvent actionEvent) {
-
 
     }
 
@@ -53,9 +55,8 @@ public class MainWindowsController {
 
         List<String> choices = new ArrayList<>();
         List<Kiosk> kiosks = ecs.getkioskArrayList();
-        for (Kiosk k : kiosks
-             ) {
-            choices.add(k.getID());
+        for (Kiosk k : kiosks) {
+            choices.add(k.getKioskID());
         }
 
         ChoiceDialog<String> Cdialog = new ChoiceDialog<>(choices.get(0),choices);
@@ -76,10 +77,6 @@ public class MainWindowsController {
             if (result.isPresent()){
                 System.out.println("You form: "+Cresult.get() +" Going to" + result.get());
             }
-
-
-
-
 
         }
 
