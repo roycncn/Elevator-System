@@ -1,5 +1,6 @@
 package ElevatorBackend;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
@@ -8,17 +9,22 @@ import java.util.Iterator;
  */
 public class ElevatorConfiguration extends Configuration<ElevatorFactorySetting> {
     private static ElevatorConfiguration elevatorConfiguration = null;
-    private static final String path = "./JSON/Elevators.json";
+    private static File configFile = null;
 
-    private ElevatorConfiguration(String path) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
-        super(path, ElevatorFactorySetting.class.getDeclaredField("id"), ElevatorFactorySetting[].class);
+    private ElevatorConfiguration(File configFile) throws NoSuchFieldException {
+        super(configFile, ElevatorFactorySetting.class.getDeclaredField("id"), ElevatorFactorySetting[].class);
     }
 
-    public static ElevatorConfiguration getInstance() throws NoSuchFieldException, InvocationTargetException, IllegalAccessException{
+    public static ElevatorConfiguration getInstance() {
         if (elevatorConfiguration == null) {
             synchronized (ElevatorConfiguration.class) {
                 if (elevatorConfiguration == null) {
-                    elevatorConfiguration = new ElevatorConfiguration(path);
+                    try {
+                        elevatorConfiguration = new ElevatorConfiguration(configFile);
+                    } catch (NoSuchFieldException e) {
+                        // TODO: 30/11/16 Log down the error
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -38,6 +44,14 @@ public class ElevatorConfiguration extends Configuration<ElevatorFactorySetting>
             result[counter++] = setting;
         }
         return result;
+    }
+
+    public static void setConfigFile(File file) {
+        if (configFile == null) {
+            configFile = file;
+        } else {
+            // TODO: 30/11/16 Logging here and stop the system
+        }
     }
 }
 
