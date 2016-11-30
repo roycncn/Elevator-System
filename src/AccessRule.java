@@ -11,18 +11,18 @@ enum Role{
 
 public class AccessRule {
     private HashSet<Integer> accessibleFloorNumber = new HashSet<>();
-    private long personId;
+    private final long personId;
     private Role[] roles;
 
-    public AccessRule(String jsonRule)
-    {
-        Gson gson = new Gson();
-        try {
-            AccessRule obj = gson.fromJson(jsonRule, this.getClass());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public AccessRule(String jsonRule)
+//    {
+//        Gson gson = new Gson();
+//        try {
+//            AccessRule obj = gson.fromJson(jsonRule, this.getClass());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public AccessRule(Person person) {
         this.personId = person.personID;
@@ -45,5 +45,11 @@ public class AccessRule {
 
     public HashSet<Integer> getAccessibleFloorNumber() {
         return (HashSet<Integer>) accessibleFloorNumber.clone();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("==========\n\tPerson ID: %5s\n\tRoles: %s\n\tAccessible Floors: %s",
+                this.personId, this.roles.toString(), this.accessibleFloorNumber.toString());
     }
 }

@@ -1,9 +1,11 @@
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +28,8 @@ public class Simulator {
     private static final int NUM_FLOOR = 20;
     private static final int NUM_KIOSK_PER_FLOOR = 1;
     private static final int FLOOR_HEIGHT = 500;
+    private static final String ACCESS_CONFIG = "JSON/AccessRules.json";
+    private static final String ELEVAT_CONFIG = "JSON/Elevators.json";
 
 
     private  Simulator() {
@@ -35,6 +39,11 @@ public class Simulator {
         this.building = new Building(null,null,this.elevatorController);
         this.kioskArrayList = new ArrayList<Kiosk>();
 
+        File accessFile = new File(this.ACCESS_CONFIG);
+        AccessConfiguration.setConfigFile(accessFile);
+        AccessConfiguration accessConfiguration = AccessConfiguration.getInstance();
+
+
         ArrayList<Floor> floors = null;
         try {
             floors = new ArrayList<>();
@@ -42,25 +51,20 @@ public class Simulator {
                 ArrayList<Kiosk> kiosks = new ArrayList<>();
                 Floor floor = new Floor(floorNum, FLOOR_HEIGHT, kiosks);
 
-                for (int kioskNum = 1; kioskNum <= NUM_KIOSK_PER_FLOOR; kioskNum++) {
-                    String id = "KIOSK_" + floorNum + "_" + kioskNum;
-                    Kiosk kiosk = new Kiosk(id, elevatorController, AccessConfiguration.getInstance(), floor);
-                    kiosks.add( kiosk );
-                    kioskArrayList.add(kiosk);
-                }
-                floors.add(floor);
+            for (int kioskNum = 0; kioskNum <= NUM_KIOSK_PER_FLOOR; kioskNum++) {
+                String id = "KIOSK_" + floorNum + "_" + kioskNum;
+                Kiosk kiosk = new Kiosk(id, elevatorController, accessConfiguration, floor);
+                kiosks.add( kiosk );
+                kioskArrayList.add(kiosk);
             }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            floors.add(floor);
         }
 
         building.floors = floors;
 
         try {
+            File elevatorFile = new File(this.ELEVAT_CONFIG);
+            ElevatorConfiguration.setConfigFile(elevatorFile);
             ElevatorConfiguration elevatorConfiguration = ElevatorConfiguration.getInstance();
 
             for (ElevatorFactorySetting model : elevatorConfiguration.getAllSettings()) {
