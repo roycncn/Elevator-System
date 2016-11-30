@@ -44,20 +44,21 @@ public class Simulator {
 
 
         ArrayList<Floor> floors = null;
-        try {
+
             floors = new ArrayList<>();
             for (int floorNum = 0; floorNum <= NUM_FLOOR; floorNum++) {
                 ArrayList<Kiosk> kiosks = new ArrayList<>();
                 Floor floor = new Floor(floorNum, FLOOR_HEIGHT, kiosks);
 
-            for (int kioskNum = 0; kioskNum <= NUM_KIOSK_PER_FLOOR; kioskNum++) {
-                String id = "KIOSK_" + floorNum + "_" + kioskNum;
-                Kiosk kiosk = new Kiosk(id, elevatorController, accessConfiguration, floor);
-                kiosks.add( kiosk );
-                kioskArrayList.add(kiosk);
+
+                for (int kioskNum = 0; kioskNum < NUM_KIOSK_PER_FLOOR; kioskNum++) {
+                    String id = "KIOSK_" + floorNum + "_" + kioskNum;
+                    Kiosk kiosk = new Kiosk(id, elevatorController, accessConfiguration, floor);
+                    kiosks.add(kiosk);
+                    kioskArrayList.add(kiosk);
+                }
+                floors.add(floor);
             }
-            floors.add(floor);
-        }
 
         building.floors = floors;
 
@@ -69,19 +70,18 @@ public class Simulator {
             for (ElevatorFactorySetting model : elevatorConfiguration.getAllSettings()) {
                 elevators.add(new Elevator(model.getId(), Integer.parseInt(model.getFloorLevel()), elevatorConfiguration, elevatorController));
             }
+
+            elevatorController.regElevators(elevators);
+            elevatorController.regKiosks(kioskArrayList);
+            elevatorController.regBuilding(building);
+
+            elevatorController.startSystem();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        elevatorController.regElevators(elevators);
-        elevatorController.regKiosks(kioskArrayList);
-        elevatorController.regBuilding(building);
 
-        try {
-            elevatorController.startSystem();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public ElevatorController getElevatorController(){
