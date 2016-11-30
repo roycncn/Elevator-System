@@ -11,6 +11,12 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
+    private static Simulator singleton = new Simulator( );
+
+    public static Simulator getInstance() {
+        return singleton;
+    }
+
     protected ElevatorController elevatorController;
     protected ArrayList<Elevator> elevators;
     protected Building building;
@@ -22,12 +28,12 @@ public class Simulator {
     private static final int FLOOR_HEIGHT = 500;
 
 
-    public Simulator() {
+    private  Simulator() {
 
         this.elevatorController= new ElevatorController();
         this.elevators= new ArrayList<Elevator>();
         this.building = new Building(null,null,this.elevatorController);
-        this.kioskArrayList = new ArrayList<>();
+        this.kioskArrayList = new ArrayList<Kiosk>();
 
         ArrayList<Floor> floors = null;
         try {
@@ -75,7 +81,10 @@ public class Simulator {
         }
     }
 
-    public ElevatorController getElevatorController(){
+    protected ElevatorController getElevatorController(){
        return this.elevatorController;
+    }
+    protected ArrayList<Kiosk> getkioskArrayList(){
+        return this.kioskArrayList;
     }
 }

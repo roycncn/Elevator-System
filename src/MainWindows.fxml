@@ -28,11 +28,11 @@
          </GridPane.margin></TextArea>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowSpan="6">
          <children>
-            <Button layoutX="123.0" layoutY="44.0" onAction="#buttonOn" mnemonicParsing="false" text="Button" />
-            <Button layoutX="123.0" layoutY="189.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="123.0" layoutY="335.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="123.0" layoutY="115.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="123.0" layoutY="268.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="123.0" layoutY="44.0" mnemonicParsing="false" onAction="#buttonOn" text="Start The System" />
+            <Button layoutX="126.0" layoutY="119.0" mnemonicParsing="false" onAction="#addBtnOn" text="Add Instruction" />
+            <Button layoutX="126.0" layoutY="200.0" mnemonicParsing="false" onAction="#useKiosk" text="Use Kiosk" />
+            <Button layoutX="126.0" layoutY="267.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="126.0" layoutY="336.0" mnemonicParsing="false" text="Button" />
          </children>
       </AnchorPane>
    </children>
