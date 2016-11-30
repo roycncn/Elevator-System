@@ -50,24 +50,6 @@ public class ElevatorController {
         this.showKiosksStatus();
 
 
-
-//        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "99998852|19"));
-//        this.getMessageBox("KIOSK_1_1").send(new Message("GOTO", "11118852|20"));
-//        this.getMessageBox("KIOSK_19_1").send(new Message("GOTO", "99998852|5"));
-
-
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(1), new Floor(0));
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(2), new Floor(4));
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(10), new Floor(3));
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(4), new Floor(6));
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(7), new Floor(2));
-//        Thread.sleep(50);
-//        this.findElevator(new Floor(3), new Floor(9));
     }
 
 
@@ -85,10 +67,10 @@ public class ElevatorController {
     public String findElevator(Floor fromFloor, Floor toFloor) {
         String eleID = "NULL";
         int closestFloorLevel = Integer.MAX_VALUE;
-        int direciton = fromFloor.getDirectionBetweenFloor(toFloor);
+        int direction = fromFloor.getDirectionBetweenFloor(toFloor);
 
         for (Elevator ele : this.elevators) {
-            if (direciton == ele.getMovingDirection()) {
+            if (direction == ele.getMovingDirection()) {
                 if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor)) {
                     closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
                     eleID = ele.getID();
