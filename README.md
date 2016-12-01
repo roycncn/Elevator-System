@@ -8,7 +8,7 @@ This is a smart lift control system in client-server model. It was developed in 
 
 * ElevatorBackend -- The directory for classes run in back-end server
 
-The other classes in project root are used in control panel GUI
+The other classes in `project_root` are used in control panel GUI
 
 ### Prerequisite ###
 Here is the required software to run the system
@@ -18,7 +18,7 @@ Here is the required software to run the system
 
 ### Installation ###
 
-To build the project, just run `ant` in the project root directory. There is a build file in the `project root`.
+To build the project, just run `ant` in the project root directory. There is a build file in the `project_root`.
 
 To run the system, please run `java -jar elevator.jar`. Remarks that the directory `project_root/JSON` must be placed in the same level with the `elevator.jar`
 
