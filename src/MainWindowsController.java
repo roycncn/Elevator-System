@@ -37,6 +37,7 @@ public class MainWindowsController {
             });
         }
         UpdateElevatorStatus();
+        ElevatorStatus.setStyle("-fx-font: 20 arial;");
         ElevatorStatus.setEditable(false);
     }
 
