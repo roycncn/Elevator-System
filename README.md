@@ -37,6 +37,7 @@ To run the system, please run `java -jar elevator.jar`. Remarks that the directo
 	3. Simulation class -- Class for demo
 		* ElevatorBackend.Building
 		* ElevatorBackend.Floor
+		* ElevatorBackend.Simulator
 	4. Communication class -- Class for transmission of data
 		* ElevatorBackend.AppThread
 		* ElevatorBackend.Message
