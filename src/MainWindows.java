@@ -11,8 +11,6 @@ import javafx.stage.WindowEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 
-import java.io.IOException;
-
 public class MainWindows extends Application {
 
 
@@ -22,11 +20,9 @@ public class MainWindows extends Application {
 
     }
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainWindows.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/MainWindows.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -44,6 +40,8 @@ public class MainWindows extends Application {
                 }
             }
         });
+
+
 
     }
 

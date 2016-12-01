@@ -6,12 +6,15 @@ import ElevatorBackend.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 //import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 public class MainWindowsController {
 
@@ -32,15 +35,13 @@ public class MainWindowsController {
                     UpdateElevatorStatus();
                 }
             });
-
         }
         UpdateElevatorStatus();
         ElevatorStatus.setEditable(false);
 
 
-
-
     }
+
     public void UpdateElevatorStatus(){
         Platform.runLater(new Runnable() {
             @Override
@@ -60,14 +61,37 @@ public class MainWindowsController {
     public void onUseKioskBtn(ActionEvent actionEvent) {
         List<String> KioskChoices = new ArrayList<>();
         List<String> DstChoices = new ArrayList<>();
+
+        TextInputDialog UserIdDlg = new TextInputDialog("");
+        UserIdDlg.setTitle("Please input User ID");
+        UserIdDlg.setHeaderText("Please input User ID");
+        UserIdDlg.setContentText("Please input User ID:");
+
+        //Generate DstChoices
+        Optional<String> UserIdResult = UserIdDlg.showAndWait();
+        if (UserIdResult.isPresent()){
+            AccessConfiguration ac = AccessConfiguration.getInstance();
+            Iterator<Integer> floorIt = ac.findAccessRule(UserIdResult.get()).getAccessibleFloorNumber().iterator();
+            while (floorIt.hasNext()){
+                DstChoices.add(String.valueOf(floorIt.next()));
+            }
+            DstChoices.sort(new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return Integer.parseInt(o1)-Integer.parseInt(o2);
+                }
+            });
+        }else {
+            return;
+        }
+
+
         //Generate KioskChoices
         for (Kiosk k : ecs.getkioskArrayList()) {
             KioskChoices.add(String.valueOf(k.getLocation().getFloorLevel()));
         }
-        //Generate DstChoices
-        for (int i=0;i<ecs.getBuilding().getFloorNum();i++) {
-            DstChoices.add(String.valueOf(i));
-        }
+
+
         ChoiceDialog<String> kioskFloorDlg = new ChoiceDialog<>(KioskChoices.get(0),KioskChoices);
         kioskFloorDlg.setTitle("Choose Kiosk");
         kioskFloorDlg.setHeaderText("Choose your Kiosk:");
@@ -115,7 +139,19 @@ public class MainWindowsController {
 
     }
 
-    public void onTestBtn(ActionEvent actionEvent) {
 
+    public void onAdminBtn(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/AdminPanel.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Hello World");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+    public void onMonitorBtn(ActionEvent actionEvent) {
+    }
+
+    public void onSystemBtn(ActionEvent actionEvent) {
     }
 }

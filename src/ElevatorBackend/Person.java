@@ -11,11 +11,18 @@ public class Person {
     public int personID;
     private Role[] roles;
     public ArrayList<Floor> accessibleFloors;
+    public String access;
 
     public Person(int personID, ArrayList<Floor> accessibleFloors, Role[] roles) {
         this.personID = personID;
         this.accessibleFloors = accessibleFloors;
         this.roles = roles;
+    }
+
+    public Person(int personID, String floor, Role[] roles) {
+        this.personID = personID;
+        this.roles = roles;
+        this.access = floor;
     }
 
     public boolean addAccessFloor(Floor floor) {

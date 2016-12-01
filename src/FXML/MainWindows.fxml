@@ -23,9 +23,10 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowSpan="6">
          <children>
-            <Button layoutX="241.0" layoutY="34.0" mnemonicParsing="false" onAction="#onUseKioskBtn" text="Use Kiosk" />
-            <Button layoutX="258.0" layoutY="90.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="258.0" layoutY="152.0" mnemonicParsing="false" onAction="#onTestBtn" text="Test" />
+            <Button layoutX="258.0" layoutY="30.0" mnemonicParsing="false" onAction="#onUseKioskBtn" text="Use Kiosk" />
+            <Button layoutX="258.0" layoutY="60.0" mnemonicParsing="false" onAction="#onAdminBtn" text="Admin Panel" />
+             <Button layoutX="258.0" layoutY="90.0" mnemonicParsing="false" onAction="#onMonitorBtn" text="Monitor Panel" />
+            <Button layoutX="258.0" layoutY="120.0" mnemonicParsing="false" onAction="#onSystemBtn" text="System Config" />
          </children>
       </AnchorPane>
       <TextArea fx:id="ElevatorStatus" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="3" />

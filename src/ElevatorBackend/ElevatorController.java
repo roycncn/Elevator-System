@@ -65,6 +65,7 @@ public class ElevatorController {
 
     }
 
+    // Find ele algo
     public String findElevator(Floor fromFloor, Floor toFloor) {
         String eleID = "NULL";
         int closestFloorLevel = Integer.MAX_VALUE;
