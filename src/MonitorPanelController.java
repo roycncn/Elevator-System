@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 /**
- * Created by roycn on 2016/12/1.
+ * Created by roycncn on 2016/12/1.
  */
 public class MonitorPanelController {
 
@@ -34,8 +34,6 @@ public class MonitorPanelController {
         }
         UpdateQueueStatus();
         queueStatus.setEditable(false);
-
-
     }
 
     private void UpdateQueueStatus() {

@@ -38,8 +38,6 @@ public class MainWindowsController {
         }
         UpdateElevatorStatus();
         ElevatorStatus.setEditable(false);
-
-
     }
 
     public void UpdateElevatorStatus(){
@@ -72,6 +70,7 @@ public class MainWindowsController {
         if (UserIdResult.isPresent()){
             AccessConfiguration ac = AccessConfiguration.getInstance();
             Iterator<Integer> floorIt = ac.findAccessRule(UserIdResult.get()).getAccessibleFloorNumber().iterator();
+            DstChoices.add("0");//Add G floor
             while (floorIt.hasNext()){
                 DstChoices.add(String.valueOf(floorIt.next()));
             }
@@ -161,6 +160,13 @@ public class MainWindowsController {
 
     }
 
-    public void onSystemBtn(ActionEvent actionEvent) {
+    public void onSystemBtn(ActionEvent actionEvent) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/ConfigPanel.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Monitor Panel");
+        stage.setScene(new Scene(root));
+        stage.show();
+
     }
 }

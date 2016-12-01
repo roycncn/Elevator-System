@@ -73,8 +73,13 @@ public class ElevatorController {
 
         for (Elevator ele : this.elevators) {
             if (direction == ele.getMovingDirection()) {
-                if (closestFloorLevel > ele.getFloorLevelDifferentToFloor(fromFloor) && ele.canPickup(fromFloor, toFloor)) {
-                    closestFloorLevel = ele.getFloorLevelDifferentToFloor(fromFloor);
+                if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor) && ele.canPickup(fromFloor, toFloor)) {
+                    closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
+                    eleID =String.valueOf(ele.getElevatorID());
+                }
+            } else if (ele.getMovingDirection() == 0) {
+                if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor)) {
+                    closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
                     eleID =String.valueOf(ele.getElevatorID());
                 }
             }
@@ -114,7 +119,22 @@ public class ElevatorController {
         ArrayList<String> eleStatus = new ArrayList<String>();
 
         for (Elevator elevator : this.elevators) {
-            eleStatus.add(elevator.getElevatorID() + " | " + elevator.getCurrentFloor().getFloorLevel() + " | " + elevator.getMovingDirection());
+            String Direction = "";
+            switch (elevator.getMovingDirection()){
+                case 1:
+                    Direction = "Moving Up";
+                    break;
+                case -1:
+                    Direction = "Moving Down";
+                    break;
+                case 0:
+                    Direction = "Parking";
+                    break;
+                default:
+                    Direction = "Parking";
+
+            }
+            eleStatus.add(elevator.getElevatorID() + " | " + elevator.getCurrentFloor().getFloorLevel() + " | " + Direction);
         }
         if (eleStatus.size() == 0) {
             eleStatus.add("Bye");

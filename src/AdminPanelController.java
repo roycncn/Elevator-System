@@ -4,6 +4,7 @@ import ElevatorBackend.Role;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ import java.util.ArrayList;
  */
 public class AdminPanelController {
 
-    public TableView AccessTable;
+
+    public TextArea AdminTextField;
 
     public void initialize(){
 
@@ -20,5 +22,7 @@ public class AdminPanelController {
 
 
     }
+
+
 
 }

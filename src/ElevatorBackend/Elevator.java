@@ -98,9 +98,7 @@ public class Elevator extends Thread {
     public void addFloorToCurrentQueue(Floor toFloor) {
         this.floorQueue.add(toFloor);
         this.sortFloorQueueInOrder(getMovingDirection());
-        for (ElevatorQueueListener listener:queueListeners){
-            listener.onQueueChange();
-        }
+        queueListeners.forEach(ElevatorQueueListener::onQueueChange);
 
 
     }
@@ -132,9 +130,7 @@ public class Elevator extends Thread {
             this.sortFloorQueueSpareInOrder(this.getMovingDirection());
         }
 
-        for (ElevatorQueueListener listener:queueListeners){
-            listener.onQueueChange();
-        }
+        queueListeners.forEach(ElevatorQueueListener::onQueueChange);
 
     }
 
@@ -168,13 +164,12 @@ public class Elevator extends Thread {
                 if (currentHeight <= 0) {
                     this.reachFloor(new Floor(this.currentFloor.getFloorLevel() + this.getMovingDirection()));
                     System.out.printf("%s reached level %d.\n", this.getElevatorID(), this.currentFloor.getFloorLevel());
-                    for (ElevatorPositionListener listener:listeners){
-                        listener.onPositionChange();
-                    }
+                    listeners.forEach(ElevatorPositionListener::onPositionChange);
                 }
             }
         }
 
+        queueListeners.forEach(ElevatorQueueListener::onQueueChange);
 
 
     }

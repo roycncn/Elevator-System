@@ -46,33 +46,25 @@ public class AccessConfiguration extends Configuration<AccessRule>  {
         return (ArrayList<AccessRule>) accessConfiguration.content.clone();
     }
 
-    public boolean createAccessRules(AdminPanel adminPanel, AccessRule rule) {
-        if ( adminPanel != null ) {
+    public boolean createAccessRules(AccessRule rule) {
             accessConfiguration.content.add(rule);
             accessConfiguration.index.put(String.valueOf(rule.getPersonId()), rule);
             return true;
-        }
-        return false;
     }
 
-    public boolean deleteAccessRules(AdminPanel adminPanel, int ruleIndex) {
-        if ( adminPanel != null ) {
+    public boolean deleteAccessRules( int ruleIndex) {
             AccessRule deleted = accessConfiguration.content.remove(ruleIndex);
             accessConfiguration.index.remove(deleted.getPersonId());
             return true;
-        }
-        return false;
     }
 
     public AccessRule findAccessRule(String personId) {
         return accessConfiguration.index.get(personId);
     }
 
-    public boolean updateAccessRule(AdminPanel adminPanel, AccessRule toBeUpdated) {
+    public boolean updateAccessRule(AccessRule toBeUpdated) {
         AccessRule ruleInContent = accessConfiguration.index.get( toBeUpdated.getPersonId() );
-        if ( adminPanel != null && ruleInContent != null) {
 
-        }
         return false;
     }
 
