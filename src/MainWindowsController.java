@@ -85,7 +85,11 @@ public class MainWindowsController {
             return;
         }
         }catch (Exception ex){
-            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("User Not Exist!");
+            alert.setHeaderText(null);
+            alert.setContentText("User Not Exist!");
+            alert.showAndWait();
             return;
         }
 
