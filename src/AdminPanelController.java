@@ -50,7 +50,6 @@ public class AdminPanelController {
         return stringBuffer.toString();
     }
 
-
     public void onSaveBtn(ActionEvent actionEvent) throws FileNotFoundException {
 
         String text = AdminTextField.getText();
@@ -61,8 +60,6 @@ public class AdminPanelController {
         Stage stage = (Stage) AdminTextField.getScene().getWindow();
         stage.close();
     }
-
-
 
     public void onCanelBtn(ActionEvent actionEvent) {
         Stage stage = (Stage) AdminTextField.getScene().getWindow();

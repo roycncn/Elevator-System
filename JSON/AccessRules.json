@@ -14,5 +14,10 @@
 		"accessibleFloorNumber" : [0,1,2,3,4,5,7,10],
 		"personId" : 51689,
 		"roles" : ["USER"]
+	},
+	{
+		"accessibleFloorNumber" : [0,1,2,3,4,5,6],
+		"personId" : 123456,
+		"roles" : ["USER"]
 	}
 ]

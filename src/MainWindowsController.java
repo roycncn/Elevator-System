@@ -143,7 +143,6 @@ public class MainWindowsController {
 
     }
 
-
     public void onAdminBtn(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("FXML/AdminPanel.fxml"));
         Stage stage = new Stage();
