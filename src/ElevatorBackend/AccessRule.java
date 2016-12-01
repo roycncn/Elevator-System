@@ -9,15 +9,7 @@ public class AccessRule {
     private final long personId;
     private Role[] roles;
 
-//    public AccessRule(String jsonRule)
-//    {
-//        Gson gson = new Gson();
-//        try {
-//            AccessRule obj = gson.fromJson(jsonRule, this.getClass());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     public AccessRule(Person person) {
         this.personId = person.personID;

@@ -68,10 +68,10 @@ public class MainWindowsController {
 
         //Generate DstChoices
         Optional<String> UserIdResult = UserIdDlg.showAndWait();
+        try{
         if (UserIdResult.isPresent()){
             AccessConfiguration ac = AccessConfiguration.getInstance();
             Iterator<Integer> floorIt = ac.findAccessRule(UserIdResult.get()).getAccessibleFloorNumber().iterator();
-            DstChoices.add("0");//Add G floor
             while (floorIt.hasNext()){
                 DstChoices.add(String.valueOf(floorIt.next()));
             }
@@ -82,6 +82,10 @@ public class MainWindowsController {
                 }
             });
         }else {
+            return;
+        }
+        }catch (Exception ex){
+            ex.printStackTrace();
             return;
         }
 

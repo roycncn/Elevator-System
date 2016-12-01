@@ -150,7 +150,7 @@ public class ElevatorController {
             eleQueueStatus.add(elevator.getElevatorID() + " | " + elevator.getSpareQueue());
         }
         if (eleQueueStatus.size() == 0) {
-            eleQueueStatus.add("Bye");
+            eleQueueStatus.add("No Elevator!");
         }
         return eleQueueStatus;
     }
