@@ -19,6 +19,7 @@ public class Elevator extends Thread {
     private String elevatorID;
     private MessageBox messageBox;
     private final ArrayList<ElevatorPositionListener> listeners = new ArrayList<>();
+    private final ArrayList<ElevatorQueueListener> queueListeners = new ArrayList<>();
 
     public Elevator(String id, int initLevel, Configuration config, ElevatorController ec) {
         this.elevatorID = id;
@@ -94,22 +95,16 @@ public class Elevator extends Thread {
 
 
     public void addFloorToCurrentQueue(Floor toFloor) {
-
-        System.out.println("CQ : " + this.queueToString(this.floorQueue));
-        System.out.println("SQ : " + this.queueToString(this.floorQueueSpare));
-
         this.floorQueue.add(toFloor);
         this.sortFloorQueueInOrder(getMovingDirection());
+        for (ElevatorQueueListener listener:queueListeners){
+            listener.onQueueChange();
+        }
 
-        System.out.println("CQ : " + this.queueToString(this.floorQueue));
-        System.out.println("SQ : " + this.queueToString(this.floorQueueSpare));
 
     }
 
     public void addFloorToSpareQueue(Floor toFloor) {
-
-        System.out.println("CQ : " + this.queueToString(this.floorQueue));
-        System.out.println("SQ : " + this.queueToString(this.floorQueueSpare));
 
         this.floorQueueSpare.add(toFloor);
 
@@ -135,13 +130,19 @@ public class Elevator extends Thread {
         } else {
             this.sortFloorQueueSpareInOrder(this.getMovingDirection());
         }
-        System.out.println("CQ : " + this.queueToString(this.floorQueue));
-        System.out.println("SQ : " + this.queueToString(this.floorQueueSpare));
+
+        for (ElevatorQueueListener listener:queueListeners){
+            listener.onQueueChange();
+        }
 
     }
 
     public void addPositionListener(ElevatorPositionListener listener){
         listeners.add(listener);
+    }
+
+    public void addQueueListener(ElevatorQueueListener listener){
+        queueListeners.add(listener);
     }
 
     public void move() {
@@ -217,6 +218,8 @@ public class Elevator extends Thread {
             Collections.sort(this.floorQueueSpare);
         }
     }
+
+
 
     public String queueToString(ArrayList<Floor> f) {
         String str = "[ ";
