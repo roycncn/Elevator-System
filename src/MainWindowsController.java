@@ -143,13 +143,22 @@ public class MainWindowsController {
     public void onAdminBtn(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("FXML/AdminPanel.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Hello World");
+        stage.setTitle("Admin Panel");
         stage.setScene(new Scene(root));
         stage.show();
 
     }
 
-    public void onMonitorBtn(ActionEvent actionEvent) {
+    public void onMonitorBtn(ActionEvent actionEvent) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/MonitorPanel.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Monitor Panel");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+
+
     }
 
     public void onSystemBtn(ActionEvent actionEvent) {

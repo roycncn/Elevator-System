@@ -221,9 +221,18 @@ public class Elevator extends Thread {
 
 
 
-    public String queueToString(ArrayList<Floor> f) {
-        String str = "[ ";
-        for (Floor floor : f) {
+    public String getWorkingQueue() {
+        String str = "Working Queue is: [ ";
+        for (Floor floor : floorQueue) {
+            str += floor.getFloorLevel() + " ";
+        }
+        str += "]";
+        return str;
+    }
+
+    public String getSpareQueue() {
+        String str = "Spare Queue is: [ ";
+        for (Floor floor : floorQueueSpare) {
             str += floor.getFloorLevel() + " ";
         }
         str += "]";

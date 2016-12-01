@@ -122,6 +122,20 @@ public class ElevatorController {
         return eleStatus;
     }
 
+    public ArrayList<String> getElevatorsQueueStatus() {
+        ArrayList<String> eleQueueStatus = new ArrayList<String>();
+
+        for (Elevator elevator : this.elevators) {
+            eleQueueStatus.add(elevator.getElevatorID() + " | " + elevator.getWorkingQueue());
+            eleQueueStatus.add(elevator.getElevatorID() + " | " + elevator.getSpareQueue());
+        }
+        if (eleQueueStatus.size() == 0) {
+            eleQueueStatus.add("Bye");
+        }
+        return eleQueueStatus;
+    }
+
+
     public Elevator getElevator(String id) {
         for (Elevator ele : this.elevators) {
             if (ele.getElevatorID().equals(id)) {
