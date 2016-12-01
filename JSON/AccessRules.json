@@ -1,12 +1,18 @@
 [
 	{
-		"accessibleFloorNumber" : [1,2,3,4,19,20],
-	"personId" : 99998852,
-	"roles" : ["ADMIN"]
-},
+      "accessibleFloorNumber" : [1,2,3,4,19,20],
+      "personId" : 99998852,
+      "roles" : ["ADMIN"]
+
+    },
 	{
 		"accessibleFloorNumber" : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
 		"personId" : 1,
+		"roles" : ["USER"]
+	},
+	{
+		"accessibleFloorNumber" : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+		"personId" : 4,
 		"roles" : ["USER"]
 	}
 ]

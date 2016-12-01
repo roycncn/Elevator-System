@@ -30,6 +30,15 @@ public class Simulator {
     private static final String ACCESS_CONFIG = "JSON/AccessRules.json";
     private static final String ELEVAT_CONFIG = "JSON/Elevators.json";
 
+    public String getAccessConfigPath(){
+
+        return this.ACCESS_CONFIG;
+    }
+
+    public String getElevatConfigConfigPath(){
+
+        return this.ELEVAT_CONFIG;
+    }
 
     private  Simulator() {
 

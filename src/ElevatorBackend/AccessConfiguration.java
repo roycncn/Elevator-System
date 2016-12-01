@@ -79,4 +79,13 @@ public class AccessConfiguration extends Configuration<AccessRule>  {
     }
 
 
+    public static void reload() {
+
+        try {
+            accessConfiguration = new AccessConfiguration(configFile);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
