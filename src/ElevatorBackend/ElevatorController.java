@@ -77,11 +77,6 @@ public class ElevatorController {
                     closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
                     eleID =String.valueOf(ele.getElevatorID());
                 }
-            } else if (ele.getMovingDirection() == 0) {
-                if (closestFloorLevel > ele.getTotalFloorToBeVisited(fromFloor)) {
-                    closestFloorLevel = ele.getTotalFloorToBeVisited(fromFloor);
-                    eleID =String.valueOf(ele.getElevatorID());
-                }
             }
         }
 
