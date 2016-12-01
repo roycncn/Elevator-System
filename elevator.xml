@@ -149,4 +149,9 @@
   <target name="build.modules" depends="init, clean, compile.module.elevator" description="build all modules"/>
   
   <target name="all" depends="build.modules" description="build all"/>
+
+  <target name="run" depends="all" description="run the GUI">
+    <java classname="${elevator.output.dir}/MainWindows" classpathref="elevator.module.production.classpath"/>
+  </target>
+
 </project>
