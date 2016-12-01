@@ -130,7 +130,7 @@ public class MainWindowsController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
                 alert.setHeaderText(null);
-                alert.setContentText("Please Input your Destination Flooor");
+                alert.setContentText("Please Input your Destination Floor");
                 alert.showAndWait();
             }//End if(DstFloorResult.isPresent()&&DstFloorResult.get()!= null)
 
