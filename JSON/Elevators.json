@@ -1,31 +1,13 @@
 [
 	{
 		"id": "Elevator_0",
-		"floorLevel": 0,
+		"floorLevel": 16,
 		"accelerationSpeed": 1.0,
 		"maximumSpeed": 2.0,
 		"runMode": "NORMAL"
 	},	{
 	"id" : "Elevator_1",
-	"floorLevel" : 3,
-	"accelerationSpeed" : 1.0,
-	"maximumSpeed" : 2.0,
-	"runMode" : "NORMAL"
-},	{
-	"id" : "Elevator_2",
-	"floorLevel" : 0,
-	"accelerationSpeed" : 1.0,
-	"maximumSpeed" : 2.0,
-	"runMode" : "NORMAL"
-},	{
-	"id" : "Elevator_3",
-	"floorLevel" : 0,
-	"accelerationSpeed" : 1.0,
-	"maximumSpeed" : 2.0,
-	"runMode" : "NORMAL"
-},{
-	"id" : "Elevator_4",
-	"floorLevel" : 0,
+	"floorLevel" : 5,
 	"accelerationSpeed" : 1.0,
 	"maximumSpeed" : 2.0,
 	"runMode" : "NORMAL"

@@ -62,13 +62,14 @@ public class Elevator extends Thread {
             return Math.abs(this.currentFloor.getFloorLevel() - floor.getFloorLevel());
         }
 
-        int a = 0; // curr to floorCurr[last]
+        int a = 0; // curr to floorCurr[last] & floorCurr[last] to floor
         int b = 0; // floorCurr[last] to floorSpare[last]
         int c = 0; // floorSpare[last] to floor
 
 
         if (this.floorQueue.size() > 0) {
             a = Math.abs(this.currentFloor.getFloorLevel() - this.floorQueue.get(this.floorQueue.size() - 1).getFloorLevel());
+            a += Math.abs(this.floorQueue.get(this.floorQueue.size() - 1).getFloorLevel() - floor.getFloorLevel());
         }
         if (this.floorQueue.size() > 0 && this.floorQueueSpare.size() > 0) {
             b = Math.abs(this.floorQueue.get(this.floorQueue.size() - 1).getFloorLevel() - this.floorQueueSpare.get(this.floorQueueSpare.size() - 1).getFloorLevel());
