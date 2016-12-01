@@ -33,6 +33,7 @@ public class MonitorPanelController {
             });
         }
         UpdateQueueStatus();
+        queueStatus.setStyle("-fx-font: 20 arial;");
         queueStatus.setEditable(false);
     }
 
