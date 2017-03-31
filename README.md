@@ -47,3 +47,4 @@ To run the system, please run `java -jar elevator.jar`. Remarks that the directo
 		* Classes which are not in above classes.
 		
 	To deploy the IES to real environment, the _infrastructure class_ should go to the driver of the hardware. The _configuration class_ should go to back-end server. The _communication class_ should go to all the components of the IES excepting the __Ticker__ class which is stored in the back-end server for synchronization. The _Front-end class_ should go to front-end server.
+
